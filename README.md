@@ -49,6 +49,7 @@ Run the `setup_ros.bash` and `./setup_py.bash` sequentially in the main folder o
 ```bash
 ./setup_ros.bash
 ./setup_py.bash
+conda activate agileflight
 catkin build
 ```
 
