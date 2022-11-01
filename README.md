@@ -57,6 +57,7 @@ catkin build
 Navigate to the workspace directory and run
 ```
 source devel/setup.bash
+source ~/.bashrc
 cd src/agile_flight/
 ```
 To run the the evaluation automatically, you can use the `./run.bash N` script provided in this folder. It will automatically perform `N` rollouts and then create an `evaluation.yaml` file which summarizes the rollout statistics.
