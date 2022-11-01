@@ -1,0 +1,40 @@
+# Global settings. 
+dt: 0.02 # s
+max_time: 30 # s
+
+# Those settings are global as well but they can be overriden
+# individually by each object group below.
+pos_bb: [ -0, 15, -10, 10,  0,  10 ]
+vel_bb: [ -1,   1,  -1,  1, -1,  1 ]
+acc_bb: [ -10,   10,  -10,  10, -10,  10 ]
+att_bb: [ -180, 180,  -90,  90, -180, 180 ]
+omega_bb: [ -180, 180,  -90,  90, -180, 180 ]
+angacc_bb: [ -180, 180,  -90,  90, -180, 180 ]
+
+# Save takeoff and target zone!
+exclusion_zone: [[-3, 2, -3, 3, 0, 5], [14, 16, -3, 3, 0, 5]]
+
+density: 1 # objects per square meter
+scale: [0.1, 4.0]
+
+# density 0.033, 0.066, 0.099 for all 3 region in each level easy, medium, hard, respectively. 
+box_static_region1:
+  prefab_name: "rpg_box01"
+  traj_type: "cc0000"
+  density: 0.066
+  scale: [1.0, 2.0]
+  pos_bb: [ 0, 15, -10, 10,  0,  10 ]
+
+box_static_region2:
+  prefab_name: "rpg_box01"
+  traj_type: "cc0000"
+  density: 0.099
+  scale: [2.0, 3.0]
+  pos_bb: [ 0, 15, -10, 10,  0,  10 ]
+
+box_static_region3:
+  prefab_name: "rpg_box01"
+  traj_type: "cc0000"
+  density: 0.15
+  scale: [3.0, 4.0]
+  pos_bb: [ 0, 15, -0.1, 0.1,  4.9,  5.1 ]

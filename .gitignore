@@ -1,0 +1,35 @@
+evaluation.yaml
+envtest/ros/summary.yaml
+
+# Python stuff
+*.pyc
+*__pycache__
+
+# Compile Commands
+*/compile_commands.json
+*/.clangd
+
+# VScode stuff
+.vscode/*
+
+# CLion Stuff
+.idea/
+cmake-build-debug/
+
+*.swp
+# Vim Stuff
+Session.vim
+
+# Tag files
+TAGS
+GTAGS
+GRTAGS
+GPATH
+
+# temporary files
+*~
+
+.history/*
+.vscode/*
+
+saved

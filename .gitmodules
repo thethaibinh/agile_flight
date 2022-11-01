@@ -1,0 +1,16 @@
+[submodule "flightmare"]
+	path = flightmare
+	url = https://github.com/thethaibinh/flightmare
+[submodule "catkin_simple"]
+	path = catkin_simple
+	url = https://github.com/catkin/catkin_simple
+[submodule "mav_comm"]
+	path = mav_comm
+	url = https://github.com/ethz-asl/mav_comm
+[submodule "dodgedrone_simulation"]
+	path = dodgedrone_simulation
+	url = https://github.com/uzh-rpg/dodgedrone_simulation.git
+	branch = main
+[submodule "envtest/ros/planner/dess"]
+	path = envtest/ros/planner/dess
+	url = https://github.com/thethaibinh/dess
