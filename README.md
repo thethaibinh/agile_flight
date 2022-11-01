@@ -8,7 +8,7 @@
 <br> DESS navigate through all large convex obstacles.
 
 ## Acknowledgements
-This evaluation code is based on the flight testing API from [ICRA 2022 DodgeDrone Challenge: Vision-based Agile Drone Flight](https://github.com/uzh-rpg/agile_flight). We develop and evaluate navigation policies on the platform.
+This evaluation code is based on the flight testing API from [ICRA 2022 DodgeDrone Challenge: Vision-based Agile Drone Flight](https://github.com/uzh-rpg/agile_flight). We implement and evaluate navigation policies on top of the platform.
 
 ### Prerequisite
 
