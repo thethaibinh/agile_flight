@@ -53,15 +53,16 @@ conda activate agileflight
 catkin build
 ```
 
-**Testing approaches in the simulator:**
+### Testing approaches in the simulator:
 Navigate to the workspace directory and run
 ```
 source devel/setup.bash
 source ~/.bashrc
 cd src/agile_flight/
 ```
-To run the the evaluation automatically, you can use the `./run.bash N` script provided in this folder. It will automatically perform `N` rollouts and then create an `evaluation.yaml` file which summarizes the rollout statistics.
+Change the scenarios in "../src/agile_flight/flightmare/flightpy/configs/vision/config.yaml"
+To run the the evaluation automatically, you can use the `./run.bash N` script provided in this folder. It will automatically perform `N` rollouts and then override the `evaluation.yaml` file which summarizes the rollout statistics.
 
-**Visualize results**
+### Visualize results
 Change the name for each result file as "result_easy", "result_medium", "result_hard" corresponding to the environment.
 Then run plot script in /evaluation_results.
