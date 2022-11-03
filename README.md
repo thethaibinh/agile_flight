@@ -10,9 +10,9 @@
 ## Acknowledgements
 This evaluation code is based on the flight testing API from [ICRA 2022 DodgeDrone Challenge: Vision-based Agile Drone Flight](https://github.com/uzh-rpg/agile_flight). We implement and evaluate navigation policies on top of the platform.
 
-### Prerequisite
+## Prerequisite
 
-1 . Before continuing, make sure to have g++ and gcc to version 9.3.0. You can check this by typing in a terminal `gcc --version` and `g++ --version`. Follow [this guide](https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/) if your compiler is not compatible.
+1. Before continuing, make sure to have g++ and gcc to version 9.3.0. You can check this by typing in a terminal `gcc --version` and `g++ --version`. Follow [this guide](https://linuxize.com/post/how-to-install-gcc-compiler-on-ubuntu-18-04/) if your compiler is not compatible.
 
 2. In addition, make sure to have ROS installed. Follow [this guide](http://wiki.ros.org/noetic/Installation/Ubuntu) and install ROS Noetic if you don't already have it.
 
@@ -22,7 +22,7 @@ sudo apt install python3-catkin-tools
 ```
 4. Install [anaconda](https://www.anaconda.com/).
 
-### Installation
+## Installation
 
 We only support Ubuntu 20.04 with ROS noetic. Other setups are likely to work as well but not actively supported.
 
@@ -53,7 +53,7 @@ conda activate agileflight
 catkin build
 ```
 
-### Testing approaches in the simulator:
+## Testing approaches in the simulator:
 Navigate to the workspace directory and run
 ```
 source devel/setup.bash
@@ -63,6 +63,6 @@ cd src/agile_flight/
 Change the scenarios in "../src/agile_flight/flightmare/flightpy/configs/vision/config.yaml"
 To run the the evaluation automatically, you can use the `./run.bash N` script provided in this folder. It will automatically perform `N` rollouts and then override the `evaluation.yaml` file which summarizes the rollout statistics.
 
-### Visualize results
+## Visualize results
 Change the name for each result file as "result_easy", "result_medium", "result_hard" corresponding to the environment.
 Then run plot script in /evaluation_results.
