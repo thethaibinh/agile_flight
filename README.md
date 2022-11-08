@@ -1,6 +1,6 @@
 # DESS - DEpth-based Sampling and Steering Constraints for Memoryless Local Planners
 
-This repository contains the implementation code for the paper "DEpth-based Sampling and Steering Constraints for Memoryless Local Planners", which has been submitted to a journal and is under review. Please don't hesitate to contact the corresponding author [Thai Binh Nguyen](mailto:thethaibinh@gmail.com) if you have any requests.
+This repository contains the implementation code for the algorithm described in the paper "DEpth-based Sampling and Steering Constraints for Memoryless Local Planners", which has been submitted to the Journal of Intelligent and Robotic Systems (JINT) and is under review. A preprint version of the paper is available [here](https://arxiv.org/abs/2211.03018). Please don't hesitate to contact the corresponding author [Thai Binh Nguyen](mailto:thethaibinh@gmail.com) if you have any requests.
 
 ## Demo
 ![Fixed yawing](https://github.com/thethaibinh/agile_flight/blob/master/evaluation_results/fixed_yawing.gif?raw=true)
