@@ -54,12 +54,21 @@ Run the `setup_ros.bash` and `./setup_py.bash` sequentially in the main folder o
 conda activate agileflight
 catkin build
 ```
-
+The internet interruption while preparing the environment might cause issues in the catkin build. To fix that, please remove the previous conda environment and run the script again.
+```
+conda activate base
+conda env remove -n agileflight
+./setup_py.bash
+conda activate agileflight
+```
 ## Testing approaches in the simulator:
 Navigate to the workspace directory and run
 ```
+cd ..
+cd ..
 source devel/setup.bash
 source ~/.bashrc
+conda activate agileflight
 cd src/agile_flight/
 ```
 Change the scenarios in "../src/agile_flight/flightmare/flightpy/configs/vision/config.yaml"
