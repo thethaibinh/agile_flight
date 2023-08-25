@@ -35,23 +35,22 @@ for i in $(eval echo {1..$N})
   rostopic pub /kingfisher/dodgeros_pilot/reset_sim std_msgs/Empty "{}" --once
   rostopic pub /kingfisher/dodgeros_pilot/enable std_msgs/Bool "data: true" --once
   cd ./envtest/ros/
-  
-  case $((i%3)) in 
-    0)
-      rostopic pub /sampling_mode std_msgs/Int8 "data: 2" --once
-      python3 benchmarking_node.py --policy=depth_based &
-      PY_PID="$!"
-      python3 run_competition.py --steering=True &
-      COMP_PID="$!" 
-      ;;
-    1) 
-      rostopic pub /sampling_mode std_msgs/Int8 "data: 0" --once
-      python3 benchmarking_node.py &
-      PY_PID="$!"
-      python3 run_competition.py &
+
+  # python3 dataset_generator.py &
+  # DG_PID="$!"
+
+  # rostopic pub /sampling_mode std_msgs/Int8 "data: 2" --once
+  python3 benchmarking_node.py --policy=fsd &
+  PY_PID="$!"
+  python3 run_competition.py --steering=True &
+  COMP_PID="$!"
       COMP_PID="$!"
-      ;;
-  esac
+  COMP_PID="$!"
+  cd -
+
+  cd ./envtest/ros/planner/fsd
+  python3 fsd.py --weights best.pt --conf 0.1 --no-trace --view-img &
+      FSD_PID="$!"
   cd -
 
   sleep 0.5
@@ -65,10 +64,14 @@ for i in $(eval echo {1..$N})
   cat "$SUMMARY_FILE" "./envtest/ros/summary.yaml" > "tmp.yaml"
   mv "tmp.yaml" "$SUMMARY_FILE"
 
+  kill -SIGINT "$FSD_PID"
   kill -SIGINT "$COMP_PID"
+  # kill -SIGINT "$DG_PID"
 done
 
 if [ $ROS_PID ]
 then
+  kill -SIGINT "$FSD_PID"
+  # kill -SIGINT "$DG_PID"
   kill -SIGINT "$ROS_PID"
 fi

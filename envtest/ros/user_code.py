@@ -43,7 +43,7 @@ def compute_command_vision_based(state, img, steering, goal):
     return command
 
 
-def compute_command_state_based(state, obstacles, rl_policy=None, steering=False, goal=15):
+def compute_command_state_based(state, steering=False, goal=15):
     ################################################
     # !!! Begin of user code !!!
     # TODO: populate the command message

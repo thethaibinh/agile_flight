@@ -11,6 +11,6 @@
 	path = dodgedrone_simulation
 	url = https://github.com/uzh-rpg/dodgedrone_simulation.git
 	branch = main
-[submodule "envtest/ros/planner/dess"]
-	path = envtest/ros/planner/dess
-	url = https://github.com/thethaibinh/dess
+[submodule "envtest/ros/planner/fsd"]
+	path = envtest/ros/planner/fsd
+	url = https://github.com/thethaibinh/yolov7

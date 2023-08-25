@@ -38,10 +38,10 @@ class AgilePilotNode:
         self.odom_sub = rospy.Subscriber("/" + quad_name + "/dodgeros_pilot/state", QuadState, self.state_callback,
                                          queue_size=1, tcp_nodelay=True)
 
-        self.img_sub = rospy.Subscriber("/" + quad_name + "/dodgeros_pilot/unity/depth", Image, self.img_callback,
-                                        queue_size=1, tcp_nodelay=True)
-        self.obstacle_sub = rospy.Subscriber("/" + quad_name + "/dodgeros_pilot/groundtruth/obstacles", ObstacleArray,
-                                             self.obstacle_callback, queue_size=1, tcp_nodelay=True)
+        # self.img_sub = rospy.Subscriber("/" + quad_name + "/dodgeros_pilot/unity/depth", Image, self.img_callback,
+        #                                 queue_size=1, tcp_nodelay=True)
+        # self.obstacle_sub = rospy.Subscriber("/" + quad_name + "/dodgeros_pilot/groundtruth/obstacles", ObstacleArray,
+        #                                      self.obstacle_callback, queue_size=1, tcp_nodelay=True)
 
         # Command publishers
         self.cmd_pub = rospy.Publisher("/" + quad_name + "/dodgeros_pilot/feedthrough_command", Command, queue_size=1)
@@ -63,6 +63,10 @@ class AgilePilotNode:
 
     def state_callback(self, state_data):
         self.state = AgileQuadState(state_data)
+        command = compute_command_state_based(state=self.state,
+                                                steering=self.steering,
+                                                goal=self.goal)
+        self.publish_command(command)
 
     def obstacle_callback(self, obs_data):
         if self.vision_based:

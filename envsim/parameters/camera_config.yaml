@@ -5,7 +5,7 @@ rgb_camera:
   channels: 3
   width: 320
   height: 240
-  fov: 70.0
+  fov: 90.0
   enable_depth: yes
-  enable_segmentation: no 
-  enable_opticalflow: no 
+  enable_segmentation: no
+  enable_opticalflow: no

@@ -36,5 +36,5 @@
     <!-- args="-batchmode"/> -->
 
     <!-- Trajectory Planner -->
-    <node name="planner" pkg="dess" type="main"/>
+    <!-- <node name="planner" pkg="dess" type="main"/> -->
 </launch>

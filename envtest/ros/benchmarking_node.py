@@ -7,18 +7,22 @@ import numpy as np
 from dodgeros_msgs.msg import QuadState
 from envsim_msgs.msg import ObstacleArray
 from std_msgs.msg import Empty
+from geometry_msgs.msg import Pose
 
 from uniplot import plot
 
 class Evaluator:
     def __init__(self, config, scenario, policy):
         rospy.init_node("evaluator", anonymous=False)
-        
+
         self.policy = policy
         self.scenario = scenario
         self.config = config
 
-        self.xmax = int(self.config['target'])
+        self.xmax = int(self.config['cut_off'])
+        self.goal_pos = np.float32(self.config['goal'])
+        self.direction_cost_array = []
+        self.current_pos = [0, 0, 0]
 
         self.is_active = False
         self.pos = []
@@ -57,6 +61,12 @@ class Evaluator:
                 queue_size=1,
                 tcp_nodelay=True)
 
+        self.trajectory_sub = rospy.Subscriber("/trajectory",
+                                               Pose,
+                                               self.calculate_cost,
+                                               queue_size=1,
+                                               tcp_nodelay=True)
+
 
     def _initPublishers(self, config):
         self.finish_pub = rospy.Publisher(
@@ -70,7 +80,6 @@ class Evaluator:
         self.finish_pub.publish()
         self.printSummary()
 
-
     def callbackState(self, msg):
         if not self.is_active:
             return
@@ -80,13 +89,13 @@ class Evaluator:
                         msg.pose.position.y,
                         msg.pose.position.z])
         self.pos.append(pos)
+        self.current_pos = pos[1:4]
 
         pos_x = msg.pose.position.x
         bin_x = int(max(min(np.floor(pos_x),self.xmax),0))
         if np.isnan(self.time_array[bin_x]):
             self.time_array[bin_x] = rospy.get_rostime().to_sec()
-        distance_to_goal = np.linalg.norm(pos[1:4] - ([self.xmax+1,0,5]))
-        if distance_to_goal < 0.3:
+        if pos_x > self.xmax:
             self.is_active = False
             self.publishFinish()
 
@@ -98,13 +107,10 @@ class Evaluator:
         if (outside == True).any():
             self.abortRun()
 
-
-
     def callbackStart(self, msg):
         if not self.is_active:
             self.is_active = True
         self.time_array[0] = rospy.get_rostime().to_sec()
-
 
     def callbackObstacles(self, msg):
         if not self.is_active:
@@ -124,6 +130,16 @@ class Evaluator:
         else:
             self.hit_obstacle = False
 
+    def calculate_cost(self, endpoint):
+        endpoint_pos = [endpoint.position.x,
+                        endpoint.position.y,
+                        endpoint.position.z]
+        endpoint_vector = endpoint_pos - self.current_pos
+        goal_vector = self.goal_pos - self.current_pos
+
+        cost = int(np.dot(endpoint_vector / np.linalg.norm(endpoint_vector),
+                          goal_vector / np.linalg.norm(goal_vector)) * 1000)
+        self.direction_cost_array.append(cost)
 
     def abortRun(self):
         print("You did not reach the goal!")
@@ -147,6 +163,7 @@ class Evaluator:
             summary['segment_times']["%i" % i] = self.time_array[i] - self.time_array[0]
         print("You hit %i obstacles" % self.crash)
         summary['number_crashes'] = self.crash
+        summary['direction_cost'] = self.direction_cost_array
         with open("../../evaluation.yaml", "r") as f:
             data = yaml.safe_load(f)
             rollout_name = 'rollout_1'
@@ -156,12 +173,11 @@ class Evaluator:
                     rollout_name = 'rollout_' + str(int(items[-1][0].split("_")[1]) + 1)
             f.close()
 
-        with open("summary.yaml", "w") as f:   
+        with open("summary.yaml", "w") as f:
             tmp = {}
             tmp[rollout_name] = summary
             yaml.safe_dump(tmp, f)
         rospy.signal_shutdown("Completed Evaluation")
-
 
     def printSummary(self):
         ttf = self.time_array[-1] - self.time_array[0]
@@ -185,6 +201,7 @@ class Evaluator:
             summary['segment_times']["%i" % i] = self.time_array[i] - self.time_array[0]
         print("You hit %i obstacles" % self.crash)
         summary['number_crashes'] = self.crash
+        summary['direction_cost'] = self.direction_cost_array
         with open("../../evaluation.yaml", "r") as f:
             data = yaml.safe_load(f)
             rollout_name = 'rollout_1'
@@ -194,7 +211,7 @@ class Evaluator:
                     rollout_name = 'rollout_' + str(int(items[-1][0].split("_")[1]) + 1)
             f.close()
 
-        with open("summary.yaml", "w") as f:   
+        with open("summary.yaml", "w") as f:
             tmp = {}
             tmp[rollout_name] = summary
             yaml.safe_dump(tmp, f)
@@ -218,14 +235,12 @@ class Evaluator:
 
         rospy.signal_shutdown("Completed Evaluation")
 
-
-
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Benchmarking node.')
     parser.add_argument('--policy', help='Navigation policy', required=False,  default='fixed_yawing')
     args = parser.parse_args()
-    
-    with open("./evaluation_config.yaml") as f:
+
+    with open("./planner/fsd/planning_config.yaml") as f:
         config = yaml.safe_load(f)
 
     with open("../../flightmare/flightpy/configs/vision/config.yaml") as f:

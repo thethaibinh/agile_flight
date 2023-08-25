@@ -26,13 +26,13 @@ except AttributeError:
 
 
 class TrajectoryGenerator:
-    
+
     def __init__(self):
         # controllers
         self._init_time = None
         # self._des_target1 = [-3.0, -23.0, 5.0]
         self._des_target1 = [0.0, 0.0, 5.0, 0.0]
-        self._des_target = None
+        self._des_target = self._des_target1[0:3]
         self._des_yaw = None
         self._des_traj = None
         self._navigate = False
@@ -42,7 +42,7 @@ class TrajectoryGenerator:
         self._ref.header.frame_id = "world"
         self._ref.ns = "ref"
         self._ref.lifetime = rospy.Duration(1)
-        self._ref.type = visualization_msgs.Marker.LINE_STRIP;
+        self._ref.type = visualization_msgs.Marker.LINE_STRIP
         self._ref.pose.orientation.w = 1
         self._ref.scale.x = 0.1
         self._ref.scale.y = 0.1
@@ -57,7 +57,7 @@ class TrajectoryGenerator:
         self._reference_waypoint_pub = rospy.Publisher(
             quad_namespace + '/references/markers', visualization_msgs.Marker,
             queue_size=1)
-            
+
     # update_wpnav - run the wp controller - should be called at 100hz or higher
     def update_callback(self, traj):
         if traj.orientation.x == 0:
@@ -83,7 +83,7 @@ class TrajectoryGenerator:
                 else:
                     bearing = self._bearing
             self._bearing = bearing
-            out = np.concatenate((self._des_target, bearing))
+            out = np.concatenate((self._des_target, bearing), axis=None)
         else:
             out = self._des_target1
         # publish executed trajectories
@@ -97,4 +97,3 @@ class TrajectoryGenerator:
             if not rospy.is_shutdown():
                 self._reference_waypoint_pub.publish(self._ref)
         return out
-    
