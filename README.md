@@ -1,13 +1,13 @@
 # DESS - DEpth-based Sampling and Steering Constraints for Memoryless Local Planners
 
-This repository contains the implementation code for the algorithm described in the paper "DEpth-based Sampling and Steering Constraints for Memoryless Local Planners", which has been submitted to the Journal of Intelligent and Robotic Systems (JINT) and is under review. A preprint version of the paper is available [here](https://arxiv.org/abs/2211.03018). Please don't hesitate to contact the corresponding author [Thai Binh Nguyen](mailto:thethaibinh@gmail.com) if you have any requests.
+This repository contains the implementation code for the algorithm described in the paper "DEpth-based Sampling and Steering Constraints for Memoryless Local Planners", which has been accepted to be published in the Journal of Intelligent and Robotic Systems (JINT). A preprint version of the paper is available [here](https://arxiv.org/abs/2211.03018). Please don't hesitate to contact the corresponding author [Thai Binh Nguyen](mailto:thethaibinh@gmail.com) if you have any requests.
 
 ## Demo
 ![Fixed yawing](https://github.com/thethaibinh/agile_flight/blob/master/evaluation_results/fixed_yawing.gif?raw=true)
 <br> Local planners using the fixed yawing method get stuck more often when facing a large obstacle.
 
 ![DESS](https://github.com/thethaibinh/agile_flight/blob/master/evaluation_results/depth-based_steering.gif?raw=true)
-<br> DESS navigate through all large convex obstacles.
+<br> DESS navigates through all large convex obstacles.
 
 ## Acknowledgements
 This evaluation code is based on the flight testing API from [ICRA 2022 DodgeDrone Challenge: Vision-based Agile Drone Flight](https://github.com/uzh-rpg/agile_flight). We implement and evaluate navigation policies on top of the platform.
@@ -26,7 +26,7 @@ sudo apt install python3-catkin-tools
 
 ## Installation
 
-We only support Ubuntu 20.04 with ROS noetic. Other setups are likely to work as well but not actively supported.
+We only support Ubuntu 20.04 with ROS noetic. Other setups are likely to work as well but are not actively supported.
 
 Start by creating a new catkin workspace.
 
