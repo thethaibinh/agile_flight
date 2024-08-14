@@ -258,8 +258,8 @@ void VisionSim::publishImages(const QuadState &state) {
   cloud->header.frame_id  = "camera";
   cloud->is_dense         = false; //single point of view, 2d rasterized
 
-  double cx, cy, fx, fy, fov;//principal point and focal lengths
-  fov = unity_quad->getCameras()[0]->getFOV();
+  double cx, cy, fx, fy;//principal point and focal lengths
+  // fov = unity_quad->getCameras()[0]->getFOV();
   cx = unity_quad->getCameras()[0]->getIntrinsic()(0,2); //(cloud->width >> 1) - 0.5f;
   cy = unity_quad->getCameras()[0]->getIntrinsic()(1,2); //(cloud->height >> 1) - 0.5f;
   fx = unity_quad->getCameras()[0]->getIntrinsic()(0,0);

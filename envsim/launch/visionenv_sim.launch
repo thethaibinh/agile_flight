@@ -7,7 +7,7 @@
     <param name="/use_sim_time" value="True"/>
     <arg name="real_time_factor" value="1.0"/>
     <arg name="gui" default="False"/>
-    <arg name="rviz" default="False"/>
+    <arg name="rviz" default="True"/>
 
     <group ns="$(arg quad_name)">
         <node name="dodgeros_pilot" pkg="envsim" type="visionsim_node" output="screen">
@@ -39,7 +39,7 @@
     <node name="planner" pkg="dess" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
-        <param name="position_controller/use_rate_mode" value="True" />
+        <param name="position_controller/use_rate_mode" value="False" />
         <param name="goal_x_world_coordinate" value="18.0" />
         <param name="goal_y_world_coordinate" value="0.0" />
         <param name="goal_z_world_coordinate" value="5.0" />
