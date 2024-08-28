@@ -39,10 +39,16 @@
     <node name="planner" pkg="dess" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
-        <param name="position_controller/use_rate_mode" value="False" />
         <param name="goal_x_world_coordinate" value="18.0" />
         <param name="goal_y_world_coordinate" value="0.0" />
         <param name="goal_z_world_coordinate" value="5.0" />
+        <!-- Depth uncertainty coefficients -->
+        <param name="ca0" value="0.02" />
+        <param name="ca1" value="0.02" />
+        <param name="ca2" value="0.02" />
+        <param name="cl0" value="0.01" />
+        <param name="cl1" value="0.01" />
+        <param name="cl2" value="0.01" />
         <!-- <param name="state_estimate_timeout" value="0.1" />
         <param name="control_command_delay" value="0.0" /> -->
 </launch>
