@@ -35,7 +35,7 @@ for i in $(eval echo {1..$N})
   rostopic pub /kingfisher/dodgeros_pilot/reset_sim std_msgs/Empty "{}" --once
   rostopic pub /kingfisher/dodgeros_pilot/enable std_msgs/Bool "data: true" --once
   cd ./envtest/ros/
-  rostopic pub /sampling_mode std_msgs/Int8 "data: 2" --once
+  # rostopic pub /sampling_mode std_msgs/Int8 "data: 2" --once
   python3 benchmarking_node.py --policy=depth_based &
   PY_PID="$!"
   cd -
