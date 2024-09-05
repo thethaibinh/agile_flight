@@ -43,16 +43,16 @@
         <param name="goal_y_world_coordinate" value="0.0" />
         <param name="goal_z_world_coordinate" value="5.0" />
         <!-- Depth uncertainty coefficients -->
-        <param name="ca0" value="0.02" />
-        <param name="ca1" value="0.02" />
-        <param name="ca2" value="0.02" />
-        <param name="cl0" value="0.01" />
-        <param name="cl1" value="0.01" />
-        <param name="cl2" value="0.01" />
+        <param name="ca0" value="0.5" />
+        <param name="ca1" value="0.5" />
+        <param name="ca2" value="0.5" />
+        <param name="cl0" value="0.3" />
+        <param name="cl1" value="0.3" />
+        <param name="cl2" value="0.3" />
 
         <param name="depth_upper_bound" value="4.5" />
         <param name="depth_lower_bound" value="1.7" />
-        <param name="true_vehicle_radius" value="0.16" />
+        <param name="true_vehicle_radius" value="0.15" />
         <param name="planning_vehicle_radius" value="0.3" />
         <param name="minimum_collision_distance" value="0.55" />
         <param name="max_velocity_x" value="3.0" />

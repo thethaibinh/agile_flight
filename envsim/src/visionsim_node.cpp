@@ -239,10 +239,10 @@ void VisionSim::publishImages(const QuadState &state) {
   cv::Mat img, depth, of;
 
   // RGB Image
-  unity_quad->getCameras()[0]->getRGBImage(img);
-  rgb_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
-  rgb_msg->header.stamp = ros::Time(state.t);
-  image_pub_.publish(rgb_msg);
+  // unity_quad->getCameras()[0]->getRGBImage(img);
+  // rgb_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
+  // rgb_msg->header.stamp = ros::Time(state.t);
+  // image_pub_.publish(rgb_msg);
 
 
   // Depth Image
@@ -251,56 +251,6 @@ void VisionSim::publishImages(const QuadState &state) {
     cv_bridge::CvImage(std_msgs::Header(), "32FC1", depth).toImageMsg();
   depth_msg->header.stamp = ros::Time(state.t);
   depth_pub_.publish(depth_msg);
-
-  // Point Cloud
-  pointcloud_type* cloud (new pointcloud_type() );
-  cloud->header.stamp     = depth_msg->header.stamp.toNSec() / 1000;
-  cloud->header.frame_id  = "camera";
-  cloud->is_dense         = false; //single point of view, 2d rasterized
-
-  double cx, cy, fx, fy;//principal point and focal lengths
-  // fov = unity_quad->getCameras()[0]->getFOV();
-  cx = unity_quad->getCameras()[0]->getIntrinsic()(0,2); //(cloud->width >> 1) - 0.5f;
-  cy = unity_quad->getCameras()[0]->getIntrinsic()(1,2); //(cloud->height >> 1) - 0.5f;
-  fx = unity_quad->getCameras()[0]->getIntrinsic()(0,0);
-  fy = unity_quad->getCameras()[0]->getIntrinsic()(1,1);
-
-  cloud->height = depth_msg->height;
-  cloud->width = depth_msg->width;
-  cloud->points.resize (cloud->height * cloud->width);
-  const float* depth_buffer = reinterpret_cast<const float*>(&depth_msg->data[0]);
-  int depth_idx = 0;
-  pointcloud_type::iterator pt_iter = cloud->begin ();
-  for (int v = 0; v < (int)cloud->height; ++v)
-  {
-    for (int u = 0; u < (int)cloud->width; ++u, ++depth_idx, ++pt_iter)
-    {
-      point_type& pt = *pt_iter;
-      float Z = depth_buffer[depth_idx];
-      Z *= 100;
-      // Check for invalid measurements
-      if (std::isnan (Z))
-      {
-        pt.x = pt.y = pt.z = Z;
-      }
-      else // Fill in XYZ
-      {
-        pt.y = -(u - cx) * Z / fx;
-        pt.z = -(v - cy) * Z / fy;
-        pt.x = Z;
-      }
-    }
-  }
-  // sm::PointCloud2 cloudMessage;
-  // pcl::toROSMsg(*cloud, cloudMessage);
-  // pcl_pub_.publish(cloudMessage);
-
-  // Optical Flow
-  unity_quad->getCameras()[0]->getOpticalFlow(of);
-  sensor_msgs::ImagePtr of_msg =
-    cv_bridge::CvImage(std_msgs::Header(), "bgr8", of).toImageMsg();
-  of_msg->header.stamp = ros::Time(state.t);
-  opticalflow_pub_.publish(of_msg);
 }
 
 
