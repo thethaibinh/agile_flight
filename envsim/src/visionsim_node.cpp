@@ -37,8 +37,23 @@ VisionSim::VisionSim(const ros::NodeHandle &nh, const ros::NodeHandle &pnh)
   pnh_.getParam("agi_param_dir", agi_param_directory_);
   pnh_.getParam("ros_param_dir", ros_param_directory_);
   pnh_.getParam("real_time_factor", real_time_factor_);
-  const bool got_directory =
-    pnh_.getParam("agi_param_dir", agi_param_directory_);
+  pnh_.getParam("true_vehicle_radius", true_vehicle_radius_);
+
+  // Load depth uncertainty coefficients
+  double temp;
+  pnh_.getParam("ca0", temp);
+  cov_coeffs.push_back(temp);
+  pnh_.getParam("ca1", temp);
+  cov_coeffs.push_back(temp);
+  pnh_.getParam("ca2", temp);
+  cov_coeffs.push_back(temp);
+
+  pnh_.getParam("cl0", temp);
+  cov_coeffs.push_back(temp);
+  pnh_.getParam("cl1", temp);
+  cov_coeffs.push_back(temp);
+  pnh_.getParam("cl2", temp);
+  cov_coeffs.push_back(temp);
 
   simulator_.addModel(ModelThrustTorqueSimple{quad_});
   simulator_.addModel(ModelRigidBody{quad_});
@@ -247,12 +262,73 @@ void VisionSim::publishImages(const QuadState &state) {
 
   // Depth Image
   unity_quad->getCameras()[0]->getDepthMap(depth);
-  sensor_msgs::ImagePtr depth_msg =
-    cv_bridge::CvImage(std_msgs::Header(), "32FC1", depth).toImageMsg();
+
+  // Convert depth from CV_32FC1 to CV_16UC1
+  cv::Mat depth_16;
+  depth.convertTo(depth_16, CV_16UC1, 65535); // Scale factor 65535 for full 16-bit range
+
+  double cx = depth_16.cols / 2.0f;
+  double cy = depth_16.rows / 2.0f;
+  // We use camera intrinsics matrix value from Flightmare
+  // with FoV 90 degrees and resolution 320x240
+  double fx = 130.839769;
+  double fy = 130.839769;
+  float depth_scale = 0.0015259f;
+
+  std::random_device rd;
+  std::mt19937 gen(rd());
+
+  for (int y = 0; y < depth_16.rows; ++y) {
+    for (int x = 0; x < depth_16.cols; ++x) {
+      uint16_t original_z = depth_16.at<uint16_t>(y, x);
+      float scaled_z = original_z * depth_scale;
+      if (scaled_z < 1) continue;
+      if (scaled_z > 10) continue;
+
+      // Convert image coordinates to 3D point
+      Eigen::Vector3d point_3d(abs(x - cx) * scaled_z / fx, abs(y - cy) * scaled_z / fy, scaled_z);
+
+      // Get covariance for this point
+      Eigen::Vector3d cov_diag = get_covariance_matrix(point_3d);
+      // ROS_WARN("Covariance: %f, %f, %f", cov_diag.x(), cov_diag.y(), cov_diag.z());
+
+      // Generate random noise
+      std::normal_distribution<> dist_x(0, std::sqrt(cov_diag.x()));
+      std::normal_distribution<> dist_y(0, std::sqrt(cov_diag.y()));
+      std::normal_distribution<> dist_z(0, std::sqrt(cov_diag.z()));
+
+      // Add noise to the 3D point
+      uint16_t fused_z = original_z + static_cast<uint16_t>(dist_z(gen) / depth_scale);
+      // Project back to depth frame
+      uint16_t fused_x = static_cast<uint16_t>(dist_x(gen) * fx / point_3d.z() + x);
+      uint16_t fused_y = static_cast<uint16_t>(dist_y(gen) * fy / point_3d.z() + y);
+
+      // Check if the projected point is within the image bounds
+      if (fused_x < depth_16.cols && fused_y < depth_16.rows) {
+        // Clip to valid range and convert to 16-bit
+        depth_16.at<uint16_t>(fused_y, fused_x) = fused_z;
+      }
+    }
+  }
+
+  sensor_msgs::ImagePtr depth_msg = cv_bridge::CvImage(std_msgs::Header(), "16UC1", depth_16).toImageMsg();
   depth_msg->header.stamp = ros::Time(state.t);
   depth_pub_.publish(depth_msg);
 }
 
+Eigen::Vector3d VisionSim::get_covariance_matrix(const Eigen::Vector3d& depth_point) const {
+    double ca0 = cov_coeffs[0];
+    double ca1 = cov_coeffs[1];
+    double ca2 = cov_coeffs[2];
+    double cl0 = cov_coeffs[3];
+    double cl1 = cov_coeffs[4];
+    double cl2 = cov_coeffs[5];
+
+    double sigma_a = ca0 + ca1 * depth_point.z() + ca2 * depth_point.z() * depth_point.z();
+    double sigma_lx = cl0 + cl1 * depth_point.z() + cl2 * depth_point.x();
+    double sigma_ly = cl0 + cl1 * depth_point.z() + cl2 * depth_point.y();
+    return Eigen::Vector3d(sigma_lx, sigma_ly, sigma_a);
+}
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "visionsim_node");

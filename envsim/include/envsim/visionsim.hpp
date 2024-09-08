@@ -13,7 +13,7 @@
 #include <sensor_msgs/PointCloud2.h>
 
 //this is a global definition of the points to be used
-//changes to omit color would need adaptations in 
+//changes to omit color would need adaptations in
 //the visualization too
 #include <pcl/io/io.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -58,6 +58,7 @@ class VisionSim {
   void publishState(const QuadState& state);
   void publishImages(const QuadState& state);
   void publishObstacles(const QuadState& state);
+  Eigen::Vector3d get_covariance_matrix(const Eigen::Vector3d& depth_point) const;
 
   ros::NodeHandle nh_, pnh_;
   ros::Subscriber reset_sub_;
@@ -99,6 +100,11 @@ class VisionSim {
   std::mutex sim_mutex_;
   std::thread sim_thread_;
   std::thread render_thread_;
+
+  Scalar true_vehicle_radius_;
+
+  // covariance parameters
+  std::vector<double> cov_coeffs;
 };
 
 }  // namespace agi
