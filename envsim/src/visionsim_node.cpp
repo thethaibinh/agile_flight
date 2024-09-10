@@ -186,7 +186,7 @@ void VisionSim::publishState(const QuadState &state) {
   msg_odo.pose.pose = msg_state.pose;
   msg_odo.twist.twist = msg_state.velocity;
 
-  odometry_pub_.publish(msg_odo);
+  // odometry_pub_.publish(msg_odo);
   state_pub_.publish(msg_state);
 
   // publish transform
