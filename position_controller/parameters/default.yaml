@@ -1,15 +1,15 @@
 position_controller:
   use_rate_mode: true
 
-  kpxy: 4.0
-  kdxy: 3.0
+  kpxy: 6.0
+  kdxy: 4.0
 
   kpz: 20.0
   kdz: 6.0
 
   # Attitude control gains
   # roll & pitch
-  krp: 4.0
+  krp: 6.0
   # yaw
   kyaw: 2.0
 
