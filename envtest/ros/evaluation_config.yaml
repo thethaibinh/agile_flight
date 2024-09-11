@@ -4,6 +4,7 @@ topics:
   obstacles: "dodgeros_pilot/groundtruth/obstacles"
   start: "start_navigation"
   finish: "finish_navigation"
+  skip_trial: "skip_trial"
 
 target: 17 # goal distance in x-direction, must be INTEGER
 timeout: 35  # after [timeout] seconds without arriving at the desired distance in x direction, the episode is considered a failure

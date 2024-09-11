@@ -64,6 +64,12 @@ class Evaluator:
                 queue_size=1,
                 tcp_nodelay=True)
 
+        self.skip_trial_sub = rospy.Subscriber(
+                "/%s/%s" % (config['quad_name'], config['skip_trial']),
+                Empty,
+                self.skip_trial,
+                queue_size=1,
+                tcp_nodelay=True)
 
     def _initPublishers(self, config):
         self.finish_pub = rospy.Publisher(
@@ -219,6 +225,9 @@ class Evaluator:
             yaml.safe_dump(tmp, f)
         rospy.signal_shutdown("Completed Evaluation")
 
+    def skip_trial(self):
+        print("Skipping this trial due to simulation quality issues")
+        rospy.signal_shutdown("Skipped this trial")
 
     def printSummary(self):
         ttf = self.time_array[-1] - self.time_array[0]
