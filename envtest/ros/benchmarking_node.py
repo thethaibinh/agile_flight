@@ -24,6 +24,7 @@ class Evaluator:
         self.xmax = int(self.config['target'])
 
         self.is_active = False
+        self.is_skipped = False
         self.pos = []
         self.dist = []
         self.time_array = (self.xmax+1)*[np.nan]
@@ -132,7 +133,6 @@ class Evaluator:
             else:
                 print('Failed to convert into a KDTree!')
         else:
-            print('Not in forest scenario!')
             rospy.sleep(1)
         if not self.is_active:
             self.is_active = True
@@ -163,6 +163,8 @@ class Evaluator:
 
     def check_for_collision(self, _timer):
         if not self.is_active:
+            return
+        if self.is_skipped:
             return
 
         # check if pointcloud is ready
@@ -225,7 +227,8 @@ class Evaluator:
             yaml.safe_dump(tmp, f)
         rospy.signal_shutdown("Completed Evaluation")
 
-    def skip_trial(self):
+    def skip_trial(self, msg):
+        self.is_skipped = True
         print("Skipping this trial due to simulation quality issues")
         rospy.signal_shutdown("Skipped this trial")
 
