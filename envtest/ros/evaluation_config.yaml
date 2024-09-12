@@ -6,9 +6,9 @@ topics:
   finish: "finish_navigation"
   skip_trial: "skip_trial"
 
-target: 17 # goal distance in x-direction, must be INTEGER
+target: 6 # goal distance in x-direction, must be INTEGER
 timeout: 35  # after [timeout] seconds without arriving at the desired distance in x direction, the episode is considered a failure
-bounding_box: [-5, 25, -15, 15, 0, 15] # when exiting this bounding box, the episode is considered a failure
+bounding_box: [-1, 10, -3, 3, 0, 8] # when exiting this bounding box, the episode is considered a failure
 
 crashed_thr: 0.1 # 10 cm from a point is crash
 
