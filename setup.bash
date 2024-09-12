@@ -13,7 +13,7 @@ echo "export FLIGHTMARE_PATH=$project_path/flightmare" >> ~/.bashrc
 source ~/.bashrc
 sudo apt install python3-pip
 #
-echo "Creating an conda environment from the environment.yaml file. Make sure you have anaconda installed"
+echo "Createing an conda environment from the environment.yaml file. Make sure you have anaconda installed"
 conda env create -f environment.yaml
 
 #
@@ -21,7 +21,7 @@ echo "Source the anaconda environment. If errors, change to the right anaconda p
 source ~/anaconda3/etc/profile.d/conda.sh
 
 #
-echo "Activate the environment"
+echo "Actiavte the environment"
 conda activate agileflight
 
 echo "Compiling the agile flight environment and install the environment as python package"
@@ -57,6 +57,9 @@ echo "Removing Flightmare Unity Standalone zip file"
 rm $project_path/flightmare/flightrender/RPG_Flightmare_Data.zip
 
 chmod +x $project_path/flightmare/flightrender/RPG_Flightmare.x86_64
+
+echo "Setting the flightmare environment variable. Please add 'export FLIGHTMARE_PATH=$PWD/flightmare' to your .bashrc!"
+export FLIGHTMARE_PATH=$project_path/flightmare
 
 echo "Done!"
 echo "Have a save flight!"
