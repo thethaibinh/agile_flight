@@ -131,7 +131,9 @@ class Evaluator:
                 print('Done converting into a KDTree!')
             else:
                 print('Failed to convert into a KDTree!')
-
+        else:
+            print('Not in forest scenario!')
+            rospy.sleep(1)
         if not self.is_active:
             self.is_active = True
         self.time_array[0] = rospy.get_rostime().to_sec()

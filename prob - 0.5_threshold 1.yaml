@@ -1,0 +1,803 @@
+rollout_1:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.200000047683716
+    '15': 11.52999997138977
+    '5': 6.640000104904175
+  time_to_finish: 12.329999923706055
+  travelled_distance: 33.35213426992495
+rollout_2:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.289999961853027
+    '15': 10.229999780654907
+    '5': 6.659999847412109
+  time_to_finish: 10.769999980926514
+  travelled_distance: 30.106219588532305
+rollout_3:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.009999990463257
+    '15': 10.809999942779541
+    '5': 6.440000057220459
+  time_to_finish: 11.599999904632568
+  travelled_distance: 33.840531652748076
+rollout_4:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.269999980926514
+    '15': 10.02999997138977
+    '5': 6.569999933242798
+  time_to_finish: 10.579999923706055
+  travelled_distance: 28.190093483577606
+rollout_5:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.230000019073486
+    '15': 9.960000038146973
+    '5': 6.5
+  time_to_finish: 10.490000009536743
+  travelled_distance: 28.38977307107874
+rollout_6:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.370000123977661
+    '15': 10.540000200271606
+    '5': 6.6600000858306885
+  time_to_finish: 11.110000133514404
+  travelled_distance: 29.748951978780983
+rollout_7:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 9.019999980926514
+    '15': 12.22000002861023
+    '5': 7.450000047683716
+  time_to_finish: 12.829999923706055
+  travelled_distance: 30.267049270491526
+rollout_8:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.230000019073486
+    '15': 10.569999933242798
+    '5': 6.480000019073486
+  time_to_finish: 11.710000038146973
+  travelled_distance: 25.916747817386046
+rollout_9:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.40999984741211
+    '15': 10.180000066757202
+    '5': 6.7799999713897705
+  time_to_finish: 10.730000019073486
+  travelled_distance: 28.67865428324677
+rollout_10:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.569999933242798
+    '15': 10.329999923706055
+    '5': 7.019999980926514
+  time_to_finish: 11.129999876022339
+  travelled_distance: 24.805600410425797
+rollout_11:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.299999952316284
+    '15': 10.190000057220459
+    '5': 6.579999923706055
+  time_to_finish: 10.680000066757202
+  travelled_distance: 28.56927355576318
+rollout_12:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.380000114440918
+    '15': 10.75
+    '5': 6.700000047683716
+  time_to_finish: 11.190000057220459
+  travelled_distance: 31.496475001838633
+rollout_13:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.410000085830688
+    '15': 10.81000018119812
+    '5': 6.710000038146973
+  time_to_finish: 11.490000009536743
+  travelled_distance: 30.0519603235173
+rollout_14:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.5
+    '15': 10.349999904632568
+    '5': 6.789999961853027
+  time_to_finish: 10.869999885559082
+  travelled_distance: 30.641746448455855
+rollout_15:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.440000057220459
+    '15': 10.59000015258789
+    '5': 6.799999952316284
+  time_to_finish: 11.430000066757202
+  travelled_distance: 28.377669734971004
+rollout_16:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.269999980926514
+    '15': 9.829999923706055
+    '5': 6.599999904632568
+  time_to_finish: 10.519999980926514
+  travelled_distance: 23.571363845065452
+rollout_17:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.47000002861023
+    '15': 10.160000085830688
+    '5': 6.81000018119812
+  time_to_finish: 10.880000114440918
+  travelled_distance: 27.000099628188693
+rollout_18:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.130000114440918
+    '15': 9.890000104904175
+    '5': 6.450000047683716
+  time_to_finish: 10.400000095367432
+  travelled_distance: 28.297744995162684
+rollout_19:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.289999961853027
+    '15': 11.139999866485596
+    '5': 6.6600000858306885
+  time_to_finish: 11.829999923706055
+  travelled_distance: 28.2552306663382
+rollout_20:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.350000143051147
+    '15': 10.009999990463257
+    '5': 6.670000076293945
+  time_to_finish: 10.72000002861023
+  travelled_distance: 23.27308741892773
+rollout_21:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.25
+    '15': 9.860000133514404
+    '5': 6.539999961853027
+  time_to_finish: 10.650000095367432
+  travelled_distance: 25.52473043308796
+rollout_22:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.350000143051147
+    '15': 10.490000009536743
+    '5': 6.75
+  time_to_finish: 11.0
+  travelled_distance: 30.118287499930545
+rollout_23:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.329999923706055
+    '15': 9.889999866485596
+    '5': 6.68999981880188
+  time_to_finish: 10.609999895095825
+  travelled_distance: 23.480257120280218
+rollout_24:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.129999876022339
+    '15': 10.0
+    '5': 6.450000047683716
+  time_to_finish: 10.670000076293945
+  travelled_distance: 23.927548603093218
+rollout_25:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.410000085830688
+    '15': 10.020000219345093
+    '5': 6.700000047683716
+  time_to_finish: 10.56000018119812
+  travelled_distance: 27.6054414207285
+rollout_26:
+  Success: false
+  number_crashes: 1
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.450000047683716
+    '15': .nan
+    '5': 6.75
+  time_to_finish: .nan
+  travelled_distance: 21.709479626738915
+rollout_27:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.15999984741211
+    '15': 10.319999933242798
+    '5': 6.539999961853027
+  time_to_finish: 10.90999984741211
+  travelled_distance: 27.701341183402654
+rollout_28:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.660000085830688
+    '15': 10.630000114440918
+    '5': 6.9700000286102295
+  time_to_finish: 11.080000162124634
+  travelled_distance: 31.38606689065436
+rollout_29:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.25
+    '15': 9.920000076293945
+    '5': 6.539999961853027
+  time_to_finish: 10.640000104904175
+  travelled_distance: 23.242045960729236
+rollout_30:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.339999914169312
+    '15': 10.0
+    '5': 6.75
+  time_to_finish: 10.5
+  travelled_distance: 27.948054748879372
+rollout_31:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.21999979019165
+    '15': 10.059999942779541
+    '5': 6.6499998569488525
+  time_to_finish: 10.559999942779541
+  travelled_distance: 29.366522116112137
+rollout_32:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.43999981880188
+    '15': 10.099999904632568
+    '5': 6.7799999713897705
+  time_to_finish: 10.859999895095825
+  travelled_distance: 24.504305904811755
+rollout_33:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.179999828338623
+    '15': 10.009999990463257
+    '5': 6.599999904632568
+  time_to_finish: 10.589999914169312
+  travelled_distance: 29.336264880982977
+rollout_34:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.309999942779541
+    '15': 10.639999866485596
+    '5': 6.6499998569488525
+  time_to_finish: 11.179999828338623
+  travelled_distance: 30.258925029551197
+rollout_35:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.330000162124634
+    '15': 10.019999980926514
+    '5': 6.730000019073486
+  time_to_finish: 10.569999933242798
+  travelled_distance: 27.081257357994033
+rollout_36:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.09000015258789
+    '15': 9.890000104904175
+    '5': 6.5
+  time_to_finish: 10.34000015258789
+  travelled_distance: 29.982902898689435
+rollout_37:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.389999866485596
+    '15': 10.059999942779541
+    '5': 6.7200000286102295
+  time_to_finish: 10.700000047683716
+  travelled_distance: 23.769928897878593
+rollout_38:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.759999990463257
+    '15': 11.200000047683716
+    '5': 6.9700000286102295
+  time_to_finish: 11.700000047683716
+  travelled_distance: 30.854339080692096
+rollout_39:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.069999933242798
+    '15': 9.690000057220459
+    '5': 6.430000066757202
+  time_to_finish: 10.25
+  travelled_distance: 27.376094404800735
+rollout_40:
+  Success: false
+  number_crashes: 1
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': .nan
+    '15': .nan
+    '5': 7.4100000858306885
+  time_to_finish: .nan
+  travelled_distance: 15.277519943568649
+rollout_41:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.259999990463257
+    '15': 10.680000066757202
+    '5': 6.629999876022339
+  time_to_finish: 11.319999933242798
+  travelled_distance: 30.10174073823709
+rollout_42:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.150000095367432
+    '15': 10.240000009536743
+    '5': 6.460000038146973
+  time_to_finish: 11.460000038146973
+  travelled_distance: 24.12158122821156
+rollout_43:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.25
+    '15': 10.160000085830688
+    '5': 6.549999952316284
+  time_to_finish: 10.799999952316284
+  travelled_distance: 28.084568718972243
+rollout_44:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.259999990463257
+    '15': 10.149999856948853
+    '5': 6.549999952316284
+  time_to_finish: 10.680000066757202
+  travelled_distance: 30.902305517024207
+rollout_45:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.730000019073486
+    '15': 10.599999904632568
+    '5': 7.059999942779541
+  time_to_finish: 11.120000123977661
+  travelled_distance: 31.14996704665012
+rollout_46:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.240000009536743
+    '15': 10.43999981880188
+    '5': 6.659999847412109
+  time_to_finish: 10.990000009536743
+  travelled_distance: 31.251249519141663
+rollout_47:
+  Success: false
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': .nan
+    '15': .nan
+    '5': 6.6600000858306885
+  time_to_finish: .nan
+  travelled_distance: 16.374024855670935
+rollout_48:
+  Success: false
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.420000076293945
+    '15': .nan
+    '5': 6.740000009536743
+  time_to_finish: .nan
+  travelled_distance: 19.863960527254886
+rollout_49:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.920000076293945
+    '15': 10.609999895095825
+    '5': 7.230000019073486
+  time_to_finish: 11.129999876022339
+  travelled_distance: 29.60103302304908
+rollout_50:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.319999933242798
+    '15': 10.5
+    '5': 6.579999923706055
+  time_to_finish: 12.240000009536743
+  travelled_distance: 33.130880314443594
+rollout_51:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.5
+    '15': 10.129999876022339
+    '5': 6.7799999713897705
+  time_to_finish: 10.730000019073486
+  travelled_distance: 24.165769024028613
+rollout_52:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.619999885559082
+    '15': 10.259999990463257
+    '5': 6.960000038146973
+  time_to_finish: 10.929999828338623
+  travelled_distance: 25.8574822672675
+rollout_53:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.84000015258789
+    '15': 11.289999961853027
+    '5': 7.1600000858306885
+  time_to_finish: 11.900000095367432
+  travelled_distance: 31.92562716794758
+rollout_54:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.519999980926514
+    '15': 10.359999895095825
+    '5': 6.950000047683716
+  time_to_finish: 11.639999866485596
+  travelled_distance: 25.239794137184855
+rollout_55:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.600000143051147
+    '15': 10.580000162124634
+    '5': 6.9100000858306885
+  time_to_finish: 11.140000104904175
+  travelled_distance: 27.495387803524675
+rollout_56:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.210000038146973
+    '15': 10.0
+    '5': 6.56000018119812
+  time_to_finish: 10.790000200271606
+  travelled_distance: 25.418835471203792
+rollout_57:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.97000002861023
+    '15': 10.599999904632568
+    '5': 7.490000009536743
+  time_to_finish: 11.200000047683716
+  travelled_distance: 25.91318791834313
+rollout_58:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.25
+    '15': 9.880000114440918
+    '5': 6.559999942779541
+  time_to_finish: 10.559999942779541
+  travelled_distance: 25.395496224103223
+rollout_59:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.319999933242798
+    '15': 9.97000002861023
+    '5': 6.7200000286102295
+  time_to_finish: 10.539999961853027
+  travelled_distance: 27.94786828448076
+rollout_60:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.359999895095825
+    '15': 9.97000002861023
+    '5': 6.359999895095825
+  time_to_finish: 10.599999904632568
+  travelled_distance: 29.210442810471097
+rollout_61:
+  Success: false
+  number_crashes: 1
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': .nan
+    '15': .nan
+    '5': 6.819999933242798
+  time_to_finish: .nan
+  travelled_distance: 13.577551996293861
+rollout_62:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.299999952316284
+    '15': 10.0
+    '5': 6.5899999141693115
+  time_to_finish: 10.72000002861023
+  travelled_distance: 24.640732523410414
+rollout_63:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.47000002861023
+    '15': 10.509999990463257
+    '5': 6.820000171661377
+  time_to_finish: 11.050000190734863
+  travelled_distance: 29.832292100814627
+rollout_64:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.359999895095825
+    '15': 9.97000002861023
+    '5': 6.619999885559082
+  time_to_finish: 10.559999942779541
+  travelled_distance: 27.26215434810434
+rollout_65:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.559999942779541
+    '15': 10.160000085830688
+    '5': 6.700000047683716
+  time_to_finish: 10.930000066757202
+  travelled_distance: 25.06304460976152
+rollout_66:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.039999961853027
+    '15': 9.629999876022339
+    '5': 6.480000019073486
+  time_to_finish: 10.399999856948853
+  travelled_distance: 24.070494570976923
+rollout_67:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.490000009536743
+    '15': 10.380000114440918
+    '5': 6.789999961853027
+  time_to_finish: 11.009999990463257
+  travelled_distance: 28.770797380955315
+rollout_68:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.410000085830688
+    '15': 10.22000002861023
+    '5': 6.81000018119812
+  time_to_finish: 10.820000171661377
+  travelled_distance: 29.737757594165217
+rollout_69:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.460000038146973
+    '15': 10.170000076293945
+    '5': 6.7799999713897705
+  time_to_finish: 10.869999885559082
+  travelled_distance: 24.233753606399674
+rollout_70:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 9.240000009536743
+    '15': 11.289999961853027
+    '5': 6.929999828338623
+  time_to_finish: 11.759999990463257
+  travelled_distance: 30.683547697746512
+rollout_71:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.630000114440918
+    '15': 10.31000018119812
+    '5': 7.009999990463257
+  time_to_finish: 11.0
+  travelled_distance: 26.35739467367082
+rollout_72:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.59000015258789
+    '15': 10.31000018119812
+    '5': 6.920000076293945
+  time_to_finish: 10.920000076293945
+  travelled_distance: 27.56583721765815
+rollout_73:
+  Success: true
+  number_crashes: 0
+  policy: depth_based
+  scenario: free
+  segment_times:
+    '10': 8.440000057220459
+    '15': 10.230000019073486
+    '5': 6.809999942779541
+  time_to_finish: 11.100000143051147
+  travelled_distance: 23.48468870228465
