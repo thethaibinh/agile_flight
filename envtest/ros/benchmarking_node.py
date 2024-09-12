@@ -11,11 +11,12 @@ import open3d as o3d
 from uniplot import plot
 
 class Evaluator:
-    def __init__(self, config, scenario, policy):
+    def __init__(self, config, scenario, scene, policy):
         rospy.init_node("evaluator", anonymous=False)
 
         self.policy = policy
         self.scenario = scenario
+        self.scene = scene
         self.config = config
         self.pcd = None
         self.pcd_tree = None
@@ -36,10 +37,9 @@ class Evaluator:
 
         self._initSubscribers(config['topics'])
         self._initPublishers(config['topics'])
-        # Check at 20Hz the collision
-        self.timer_check = rospy.Timer(
-            rospy.Duration(1. / 20.),
-            self.check_for_collision)
+        # Check at 20Hz the collision if we are in the forest
+        if self.scene == 2:
+            self.timer_check = rospy.Timer(rospy.Duration(1. / 20.), self.check_for_collision)
 
 
     def _initSubscribers(self, config):
@@ -117,22 +117,20 @@ class Evaluator:
 
 
     def callbackStart(self, msg):
-        cwd = os.getcwd()
-        pointcloud_fname = os.path.join(
-            cwd, "forest.ply")
-        print("Reading pointcloud from %s" % pointcloud_fname)
-        self.pcd = o3d.io.read_point_cloud(pointcloud_fname)
-
-        if self.pcd is not None:
-            print('Done reading the point cloud!')
-        else:
-            print('Failed to read the point cloud!')
-
-        self.pcd_tree = o3d.geometry.KDTreeFlann(self.pcd)
-        if self.pcd_tree is not None:
-            print('Done converting into a KDTree!')
-        else:
-            print('Failed to convert into a KDTree!')
+        if self.scene == 2:
+            cwd = os.getcwd()
+            pointcloud_fname = os.path.join(cwd, "forest.ply")
+            print("Reading pointcloud from %s" % pointcloud_fname)
+            self.pcd = o3d.io.read_point_cloud(pointcloud_fname)
+            if self.pcd is not None:
+                print('Done reading the point cloud!')
+            else:
+                print('Failed to read the point cloud!')
+            self.pcd_tree = o3d.geometry.KDTreeFlann(self.pcd)
+            if self.pcd_tree is not None:
+                print('Done converting into a KDTree!')
+            else:
+                print('Failed to convert into a KDTree!')
 
         if not self.is_active:
             self.is_active = True
@@ -296,6 +294,8 @@ if __name__=="__main__":
 
     with open("../../flightmare/flightpy/configs/vision/config.yaml") as f:
         scenario = yaml.safe_load(f)['environment']['level']
+    with open("../../flightmare/flightpy/configs/vision/config.yaml") as f:
+        scene = yaml.safe_load(f)['unity']['scene_id']
 
-    Evaluator(config, scenario, args.policy)
+    Evaluator(config, scenario, scene, args.policy)
     rospy.spin()
