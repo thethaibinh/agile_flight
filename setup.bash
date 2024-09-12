@@ -13,15 +13,14 @@ echo "export FLIGHTMARE_PATH=$project_path/flightmare" >> ~/.bashrc
 source ~/.bashrc
 sudo apt install python3-pip
 #
-echo "Createing an conda environment from the environment.yaml file. Make sure you have anaconda installed"
+echo "Creating an conda environment from the environment.yaml file. Make sure you have anaconda installed"
 conda env create -f environment.yaml
 
 #
 echo "Source the anaconda environment. If errors, change to the right anaconda path."
 source ~/anaconda3/etc/profile.d/conda.sh
 
-#
-echo "Actiavte the environment"
+echo "Activating the environment"
 conda activate agileflight
 
 echo "Compiling the agile flight environment and install the environment as python package"
