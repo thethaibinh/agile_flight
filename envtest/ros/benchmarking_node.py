@@ -224,8 +224,7 @@ class Evaluator:
         self.is_skipped = True
         print("Skipping this trial due to simulation quality issues")
         with open("summary.yaml", "w") as f:
-            tmp = ''
-            yaml.safe_dump(tmp, f)
+            f.write('')
         rospy.signal_shutdown("Skipped this trial")
 
     def printSummary(self):
