@@ -42,7 +42,6 @@ class Evaluator:
         if self.scene == 2:
             self.timer_check = rospy.Timer(rospy.Duration(1. / 20.), self.check_for_collision)
 
-
     def _initSubscribers(self, config):
         self.state_sub = rospy.Subscriber(
                 "/%s/%s" % (config['quad_name'], config['state']),
@@ -79,11 +78,9 @@ class Evaluator:
                 queue_size=1,
                 tcp_nodelay=True)
 
-
     def publishFinish(self):
         self.finish_pub.publish()
         self.printSummary()
-
 
     def callbackState(self, msg):
         if not self.is_active:
@@ -115,8 +112,6 @@ class Evaluator:
         if (outside == True).any():
             self.skip_trial()
 
-
-
     def callbackStart(self, msg):
         if self.scene == 2:
             cwd = os.getcwd()
@@ -138,11 +133,11 @@ class Evaluator:
             self.is_active = True
         self.time_array[0] = rospy.get_rostime().to_sec()
 
-
     def callbackObstacles(self, msg):
         if not self.is_active:
             return
-
+        if self.is_skipped:
+            return
         obs = msg.obstacles[0]
         dist = np.linalg.norm(np.array([obs.position.x,
                                         obs.position.y,
@@ -159,7 +154,6 @@ class Evaluator:
             self.hit_obstacle = True
         else:
             self.hit_obstacle = False
-
 
     def check_for_collision(self, _timer):
         if not self.is_active:
@@ -188,7 +182,6 @@ class Evaluator:
         # make sure to not count double crashes
         if self.hit_obstacle and closest_distance > 2 * self.crashed_thr:
             self.hit_obstacle = False
-
 
     def abortRun(self):
         print("You did not reach the goal!")
@@ -230,6 +223,9 @@ class Evaluator:
     def skip_trial(self, msg):
         self.is_skipped = True
         print("Skipping this trial due to simulation quality issues")
+        with open("summary.yaml", "w") as f:
+            tmp = {}
+            yaml.safe_dump(tmp, f)
         rospy.signal_shutdown("Skipped this trial")
 
     def printSummary(self):
@@ -286,7 +282,6 @@ class Evaluator:
         plot(xs=dist[:,0]-self.time_array[0], ys=dist[:,1], color=True)
 
         rospy.signal_shutdown("Completed Evaluation")
-
 
 
 if __name__=="__main__":
