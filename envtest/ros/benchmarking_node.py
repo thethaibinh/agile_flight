@@ -24,6 +24,7 @@ class Evaluator:
         self.xmax = int(self.config['target'])
 
         self.is_active = False
+        self.is_skipped = False
         self.pos = []
         self.dist = []
         self.time_array = (self.xmax+1)*[np.nan]
@@ -40,7 +41,6 @@ class Evaluator:
         # Check at 20Hz the collision if we are in the forest
         if self.scene == 2:
             self.timer_check = rospy.Timer(rospy.Duration(1. / 20.), self.check_for_collision)
-
 
     def _initSubscribers(self, config):
         self.state_sub = rospy.Subscriber(
@@ -78,11 +78,9 @@ class Evaluator:
                 queue_size=1,
                 tcp_nodelay=True)
 
-
     def publishFinish(self):
         self.finish_pub.publish()
         self.printSummary()
-
 
     def callbackState(self, msg):
         if not self.is_active:
@@ -101,7 +99,7 @@ class Evaluator:
         bin_x = int(max(min(np.floor(pos_x),self.xmax),0))
         if np.isnan(self.time_array[bin_x]):
             self.time_array[bin_x] = rospy.get_rostime().to_sec()
-        distance_to_goal = np.linalg.norm(pos[1:4] - ([self.xmax+1,0,5]))
+        distance_to_goal = np.linalg.norm(pos[1:4] - ([self.xmax,0,5]))
         if distance_to_goal < 0.3:
             self.is_active = False
             self.publishFinish()
@@ -112,9 +110,7 @@ class Evaluator:
         outside = ((pos[1:] > self.bounding_box[1,:])
                     | (pos[1:] < self.bounding_box[0,:])).any(axis=-1)
         if (outside == True).any():
-            self.abortRun()
-
-
+            self.skip_trial()
 
     def callbackStart(self, msg):
         if self.scene == 2:
@@ -132,17 +128,16 @@ class Evaluator:
             else:
                 print('Failed to convert into a KDTree!')
         else:
-            print('Not in forest scenario!')
             rospy.sleep(1)
         if not self.is_active:
             self.is_active = True
         self.time_array[0] = rospy.get_rostime().to_sec()
 
-
     def callbackObstacles(self, msg):
         if not self.is_active:
             return
-
+        if self.is_skipped:
+            return
         obs = msg.obstacles[0]
         dist = np.linalg.norm(np.array([obs.position.x,
                                         obs.position.y,
@@ -160,9 +155,10 @@ class Evaluator:
         else:
             self.hit_obstacle = False
 
-
     def check_for_collision(self, _timer):
         if not self.is_active:
+            return
+        if self.is_skipped:
             return
 
         # check if pointcloud is ready
@@ -186,7 +182,6 @@ class Evaluator:
         # make sure to not count double crashes
         if self.hit_obstacle and closest_distance > 2 * self.crashed_thr:
             self.hit_obstacle = False
-
 
     def abortRun(self):
         print("You did not reach the goal!")
@@ -225,8 +220,11 @@ class Evaluator:
             yaml.safe_dump(tmp, f)
         rospy.signal_shutdown("Completed Evaluation")
 
-    def skip_trial(self):
+    def skip_trial(self, msg):
+        self.is_skipped = True
         print("Skipping this trial due to simulation quality issues")
+        with open("summary.yaml", "w") as f:
+            f.write('')
         rospy.signal_shutdown("Skipped this trial")
 
     def printSummary(self):
@@ -283,7 +281,6 @@ class Evaluator:
         plot(xs=dist[:,0]-self.time_array[0], ys=dist[:,1], color=True)
 
         rospy.signal_shutdown("Completed Evaluation")
-
 
 
 if __name__=="__main__":
