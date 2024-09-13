@@ -20,7 +20,7 @@
             <param name="camera_config" value="$(find envsim)/parameters/camera_config.yaml"/>
             <param name="render" value="$(arg render)"/>
             <!-- Depth uncertainty coefficients -->
-            <param name="true_vehicle_radius" value="0.15" />
+            <param name="true_vehicle_radius" value="0.11" />
             <param name="ca0" value="0.005" />
             <param name="ca1" value="0.005" />
             <param name="ca2" value="0.005" />
@@ -53,7 +53,7 @@
 
         <param name="depth_upper_bound" value="4.5" />
         <param name="depth_lower_bound" value="1.7" />
-        <param name="planning_vehicle_radius" value="0.2" />
+        <param name="planning_vehicle_radius" value="0.13" />
 
         <param name="max_velocity_x" value="3.0" />
         <param name="max_velocity_y" value="1.5" />
@@ -62,7 +62,7 @@
         <param name="max_acceleration_y" value="3.0" />
         <param name="max_acceleration_z" value="6.0" />
         <!-- Depth uncertainty coefficients -->
-        <param name="true_vehicle_radius" value="0.15" />
+        <param name="true_vehicle_radius" value="0.11" />
         <param name="minimum_collision_distance" value="0.5" />
         <param name="ca0" value="0.005" />
         <param name="ca1" value="0.005" />
