@@ -110,7 +110,8 @@ class Evaluator:
         outside = ((pos[1:] > self.bounding_box[1,:])
                     | (pos[1:] < self.bounding_box[0,:])).any(axis=-1)
         if (outside == True).any():
-            self.skip_trial()
+            self.abortRun()
+
 
     def callbackStart(self, msg):
         if self.scene == 2:

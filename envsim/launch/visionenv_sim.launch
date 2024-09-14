@@ -20,8 +20,8 @@
             <param name="camera_config" value="$(find envsim)/parameters/camera_config.yaml"/>
             <param name="render" value="$(arg render)"/>
             <!-- Depth uncertainty coefficients -->
-            <param name="true_vehicle_radius" value="0.11" />
-            <param name="ca0" value="0.005" />
+            <param name="true_vehicle_radius" value="0.15" />
+            <param name="ca0" value="0.1" />
             <param name="ca1" value="0.005" />
             <param name="ca2" value="0.005" />
             <param name="cl0" value="0.001" />
@@ -47,13 +47,13 @@
     <node name="planner" pkg="dess" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
-        <param name="goal_x_world_coordinate" value="6.0" />
+        <param name="goal_x_world_coordinate" value="17.0" />
         <param name="goal_y_world_coordinate" value="0.0" />
         <param name="goal_z_world_coordinate" value="5.0" />
 
         <param name="depth_upper_bound" value="4.5" />
         <param name="depth_lower_bound" value="1.7" />
-        <param name="planning_vehicle_radius" value="0.13" />
+        <param name="planning_vehicle_radius" value="0.35" />
 
         <param name="max_velocity_x" value="3.0" />
         <param name="max_velocity_y" value="1.5" />
@@ -62,9 +62,9 @@
         <param name="max_acceleration_y" value="3.0" />
         <param name="max_acceleration_z" value="6.0" />
         <!-- Depth uncertainty coefficients -->
-        <param name="true_vehicle_radius" value="0.11" />
-        <param name="minimum_collision_distance" value="0.5" />
-        <param name="ca0" value="0.005" />
+        <param name="true_vehicle_radius" value="0.15" />
+        <param name="minimum_collision_distance" value="0.6" />
+        <param name="ca0" value="0.1" />
         <param name="ca1" value="0.005" />
         <param name="ca2" value="0.005" />
         <param name="cl0" value="0.001" />
