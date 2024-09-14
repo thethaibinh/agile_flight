@@ -265,6 +265,7 @@ class Evaluator:
             yaml.safe_dump(tmp, f)
 
         if not self.config['plots']:
+            rospy.signal_shutdown("Completed Evaluation")
             return
 
         print("Here is a plot of your trajectory in the xy plane")
