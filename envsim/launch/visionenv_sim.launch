@@ -72,6 +72,6 @@
         <param name="cl2" value="0.0001" />
         <!-- <param name="state_estimate_timeout" value="0.1" />
         <param name="control_command_delay" value="0.0" /> -->
-        <!-- <param name="collision_checking_method" value="du" /> -->
-        <param name="collision_checking_method" value="pyramid" />
+        <param name="collision_checking_method" value="du" />
+        <!-- <param name="collision_checking_method" value="pyramid" /> -->
 </launch>
