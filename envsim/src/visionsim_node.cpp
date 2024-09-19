@@ -254,10 +254,10 @@ void VisionSim::publishImages(const QuadState &state) {
   cv::Mat img, depth, of;
 
   // RGB Image
-  // unity_quad->getCameras()[0]->getRGBImage(img);
-  // rgb_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
-  // rgb_msg->header.stamp = ros::Time(state.t);
-  // image_pub_.publish(rgb_msg);
+  unity_quad->getCameras()[0]->getRGBImage(img);
+  rgb_msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
+  rgb_msg->header.stamp = ros::Time(state.t);
+  image_pub_.publish(rgb_msg);
 
 
   // Depth Image
