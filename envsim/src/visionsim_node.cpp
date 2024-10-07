@@ -186,7 +186,7 @@ void VisionSim::publishState(const QuadState &state) {
   msg_odo.pose.pose = msg_state.pose;
   msg_odo.twist.twist = msg_state.velocity;
 
-  // odometry_pub_.publish(msg_odo);
+  odometry_pub_.publish(msg_odo);
   state_pub_.publish(msg_state);
 
   // publish transform
@@ -251,7 +251,7 @@ void VisionSim::publishImages(const QuadState &state) {
   vision_env_ptr_->updateUnity(frame_id_);
 
   // Warning, delay
-  cv::Mat img, depth, of;
+  cv::Mat img, depth;
 
   // RGB Image
   unity_quad->getCameras()[0]->getRGBImage(img);
@@ -264,16 +264,14 @@ void VisionSim::publishImages(const QuadState &state) {
   unity_quad->getCameras()[0]->getDepthMap(depth);
 
   // Convert depth from CV_32FC1 to CV_16UC1
-  cv::Mat depth_16;
+  cv::Mat depth_16;  
   depth.convertTo(depth_16, CV_16UC1, 65535); // Scale factor 65535 for full 16-bit range
-
-  double cx = depth_16.cols / 2.0f;
-  double cy = depth_16.rows / 2.0f;
-  // We use camera intrinsics matrix value from Flightmare
-  // with FoV 90 degrees and resolution 320x240
-  double fx = 130.839769;
-  double fy = 130.839769;
-  float depth_scale = 0.0015259f;
+  // const double fov = unity_quad->getCameras()[0]->getFOV();
+  const double fx = unity_quad->getCameras()[0]->getIntrinsic()(0, 0);
+  const double fy = unity_quad->getCameras()[0]->getIntrinsic()(1, 1);
+  const double cx = unity_quad->getCameras()[0]->getIntrinsic()(0, 2);
+  const double cy = unity_quad->getCameras()[0]->getIntrinsic()(1, 2);
+  const float depth_scale = 0.0015259f;
 
   std::random_device rd;
   std::mt19937 gen(rd());
@@ -314,6 +312,41 @@ void VisionSim::publishImages(const QuadState &state) {
   sensor_msgs::ImagePtr depth_msg = cv_bridge::CvImage(std_msgs::Header(), "16UC1", depth_16).toImageMsg();
   depth_msg->header.stamp = ros::Time(state.t);
   depth_pub_.publish(depth_msg);
+
+  // Point Cloud
+  pointcloud_type* cloud (new pointcloud_type() );
+  cloud->header.stamp     = depth_msg->header.stamp.toNSec() / 1000;
+  cloud->header.frame_id  = "camera";
+  cloud->is_dense         = false; //single point of view, 2d rasterized
+
+  cloud->height = depth_msg->height;
+  cloud->width = depth_msg->width;
+  cloud->points.resize (cloud->height * cloud->width);
+  const uint16_t* depth_buffer = reinterpret_cast<const uint16_t*>(&depth_msg->data[0]);
+  int depth_idx = 0;
+  pointcloud_type::iterator pt_iter = cloud->begin ();
+  for (int v = 0; v < (int)cloud->height; ++v)
+  {
+    for (int u = 0; u < (int)cloud->width; ++u, ++depth_idx, ++pt_iter)
+    {
+      point_type& pt = *pt_iter;
+      float Z = (float)depth_buffer[depth_idx] * depth_scale;
+      // Check for invalid measurements
+      if (std::isnan (Z))
+      {
+        pt.x = pt.y = pt.z = Z;
+      }
+      else // Fill in XYZ
+      {
+        pt.y = -(u - cx) * Z / fx;
+        pt.z = -(v - cy) * Z / fy;
+        pt.x = Z;
+      }
+    }
+  }
+  sm::PointCloud2 cloudMessage;
+  pcl::toROSMsg(*cloud, cloudMessage);
+  pcl_pub_.publish(cloudMessage);  
 }
 
 Eigen::Vector3d VisionSim::get_covariance_matrix(const Eigen::Vector3d& depth_point) const {
