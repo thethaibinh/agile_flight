@@ -66,7 +66,6 @@ class VisionSim {
   ros::Publisher state_pub_;
   ros::Publisher clock_pub_;
   tf2_ros::TransformBroadcaster tfb;
-  geometry_msgs::TransformStamped transformStamped;
 
   ros::Publisher obstacle_pub_;
   ros::Publisher pcl_pub_;
@@ -88,6 +87,9 @@ class VisionSim {
 
   std::string agi_param_directory_;
   std::string ros_param_directory_;
+  std::string world_frame_name_;
+  std::string vehicle_frame_name_;
+  std::string camera_frame_name_;
 
   // flightmare vision environment
   std::unique_ptr<flightlib::VisionEnv> vision_env_ptr_;

@@ -50,6 +50,14 @@ VisionSim::VisionSim(const ros::NodeHandle &nh, const ros::NodeHandle &pnh)
               env_cfg_file.c_str());
   }
 
+  // Load the config file
+  YAML::Node env_cfg_node = YAML::LoadFile(env_cfg_file);
+
+  // Get the frame names
+  world_frame_name_ = env_cfg_node["environment"]["world_frame_name"].as<std::string>();
+  vehicle_frame_name_ = env_cfg_node["environment"]["vehicle_frame_name"].as<std::string>();
+  camera_frame_name_ = env_cfg_node["environment"]["camera_frame_name"].as<std::string>();
+
   vision_env_ptr_ = std::make_unique<flightlib::VisionEnv>(env_cfg_file, 0);
   if (render_) {
     std::string camera_config = ros_param_directory_ + "/camera_config.yaml";
@@ -158,7 +166,7 @@ void VisionSim::simLoop() {
 
 void VisionSim::publishState(const QuadState &state) {
   dodgeros_msgs::QuadState msg_state;
-  msg_state.header.frame_id = "world";
+  msg_state.header.frame_id = world_frame_name_;
   msg_state.header.stamp = ros::Time(state.t);
   msg_state.t = state.t;
   msg_state.pose.position = toRosPoint(state.p);
@@ -169,7 +177,7 @@ void VisionSim::publishState(const QuadState &state) {
   msg_state.acceleration.angular = toRosVector(state.tau);
 
   nav_msgs::Odometry msg_odo;
-  msg_odo.header.frame_id = "world";
+  msg_odo.header.frame_id = world_frame_name_;
   msg_odo.header.stamp = ros::Time(state.t);
   msg_odo.pose.pose = msg_state.pose;
   msg_odo.twist.twist = msg_state.velocity;
@@ -177,9 +185,10 @@ void VisionSim::publishState(const QuadState &state) {
   odometry_pub_.publish(msg_odo);
   state_pub_.publish(msg_state);
 
-  // publish transform
-  transformStamped.header.frame_id = "world";
-  transformStamped.child_frame_id = "camera";
+  // Publish transform
+  geometry_msgs::TransformStamped transformStamped;
+  transformStamped.header.frame_id = world_frame_name_;
+  transformStamped.child_frame_id = vehicle_frame_name_;
   transformStamped.transform.translation.x = state.p(0);
   transformStamped.transform.translation.y = state.p(1);
   transformStamped.transform.translation.z = state.p(2);
@@ -256,7 +265,7 @@ void VisionSim::publishImages(const QuadState &state) {
   // Publish point cloud
   pointcloud_type* cloud (new pointcloud_type() );
   cloud->header.stamp     = depth_msg->header.stamp.toNSec() / 1000;
-  cloud->header.frame_id  = "camera";
+  cloud->header.frame_id  = vehicle_frame_name_;
   cloud->is_dense         = false; //single point of view, 2d rasterized
 
   cloud->height = depth_msg->height;
