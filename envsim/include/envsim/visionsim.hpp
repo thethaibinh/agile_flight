@@ -101,8 +101,6 @@ class VisionSim {
   std::thread sim_thread_;
   std::thread render_thread_;
 
-  Scalar true_vehicle_radius_;
-
   // covariance parameters
   std::vector<double> cov_coeffs;
 };

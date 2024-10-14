@@ -37,23 +37,7 @@ VisionSim::VisionSim(const ros::NodeHandle &nh, const ros::NodeHandle &pnh)
   pnh_.getParam("agi_param_dir", agi_param_directory_);
   pnh_.getParam("ros_param_dir", ros_param_directory_);
   pnh_.getParam("real_time_factor", real_time_factor_);
-  pnh_.getParam("true_vehicle_radius", true_vehicle_radius_);
 
-  // Load depth uncertainty coefficients
-  double temp;
-  pnh_.getParam("ca0", temp);
-  cov_coeffs.push_back(temp);
-  pnh_.getParam("ca1", temp);
-  cov_coeffs.push_back(temp);
-  pnh_.getParam("ca2", temp);
-  cov_coeffs.push_back(temp);
-
-  pnh_.getParam("cl0", temp);
-  cov_coeffs.push_back(temp);
-  pnh_.getParam("cl1", temp);
-  cov_coeffs.push_back(temp);
-  pnh_.getParam("cl2", temp);
-  cov_coeffs.push_back(temp);
 
   simulator_.addModel(ModelThrustTorqueSimple{quad_});
   simulator_.addModel(ModelRigidBody{quad_});
@@ -61,6 +45,10 @@ VisionSim::VisionSim(const ros::NodeHandle &nh, const ros::NodeHandle &pnh)
   std::string env_cfg_file =
     getenv("FLIGHTMARE_PATH") +
     std::string("/flightpy/configs/vision/config.yaml");
+  if (!(std::filesystem::exists(env_cfg_file))) {
+    ROS_ERROR("Configuration file [%s] does not exists.",
+              env_cfg_file.c_str());
+  }
 
   vision_env_ptr_ = std::make_unique<flightlib::VisionEnv>(env_cfg_file, 0);
   if (render_) {
@@ -259,61 +247,13 @@ void VisionSim::publishImages(const QuadState &state) {
   rgb_msg->header.stamp = ros::Time(state.t);
   image_pub_.publish(rgb_msg);
 
-
   // Depth Image
   unity_quad->getCameras()[0]->getDepthMap(depth);
-
-  // Convert depth from CV_32FC1 to CV_16UC1
-  cv::Mat depth_16;  
-  depth.convertTo(depth_16, CV_16UC1, 65535); // Scale factor 65535 for full 16-bit range
-  // const double fov = unity_quad->getCameras()[0]->getFOV();
-  const double fx = unity_quad->getCameras()[0]->getIntrinsic()(0, 0);
-  const double fy = unity_quad->getCameras()[0]->getIntrinsic()(1, 1);
-  const double cx = unity_quad->getCameras()[0]->getIntrinsic()(0, 2);
-  const double cy = unity_quad->getCameras()[0]->getIntrinsic()(1, 2);
-  const float depth_scale = 0.0015259f;
-
-  std::random_device rd;
-  std::mt19937 gen(rd());
-
-  for (int y = 0; y < depth_16.rows; ++y) {
-    for (int x = 0; x < depth_16.cols; ++x) {
-      uint16_t original_z = depth_16.at<uint16_t>(y, x);
-      float scaled_z = original_z * depth_scale;
-      if (scaled_z < 1) continue;
-      if (scaled_z > 10) continue;
-
-      // Convert image coordinates to 3D point
-      Eigen::Vector3d point_3d(abs(x - cx) * scaled_z / fx, abs(y - cy) * scaled_z / fy, scaled_z);
-
-      // Get covariance for this point
-      Eigen::Vector3d cov_diag = get_covariance_matrix(point_3d);
-      // ROS_WARN("Covariance: %f, %f, %f", cov_diag.x(), cov_diag.y(), cov_diag.z());
-
-      // Generate random noise
-      std::normal_distribution<> dist_x(0, std::sqrt(cov_diag.x()));
-      std::normal_distribution<> dist_y(0, std::sqrt(cov_diag.y()));
-      std::normal_distribution<> dist_z(0, std::sqrt(cov_diag.z()));
-
-      // Add noise to the 3D point
-      uint16_t fused_z = original_z + static_cast<uint16_t>(dist_z(gen) / depth_scale);
-      // Project back to depth frame
-      uint16_t fused_x = static_cast<uint16_t>(dist_x(gen) * fx / point_3d.z() + x);
-      uint16_t fused_y = static_cast<uint16_t>(dist_y(gen) * fy / point_3d.z() + y);
-
-      // Check if the projected point is within the image bounds
-      if (fused_x < depth_16.cols && fused_y < depth_16.rows) {
-        // Clip to valid range and convert to 16-bit
-        depth_16.at<uint16_t>(fused_y, fused_x) = fused_z;
-      }
-    }
-  }
-
-  sensor_msgs::ImagePtr depth_msg = cv_bridge::CvImage(std_msgs::Header(), "16UC1", depth_16).toImageMsg();
+  sensor_msgs::ImagePtr depth_msg = cv_bridge::CvImage(std_msgs::Header(), "32FC1", depth).toImageMsg();
   depth_msg->header.stamp = ros::Time(state.t);
   depth_pub_.publish(depth_msg);
 
-  // Point Cloud
+  // Publish point cloud
   pointcloud_type* cloud (new pointcloud_type() );
   cloud->header.stamp     = depth_msg->header.stamp.toNSec() / 1000;
   cloud->header.frame_id  = "camera";
@@ -322,7 +262,11 @@ void VisionSim::publishImages(const QuadState &state) {
   cloud->height = depth_msg->height;
   cloud->width = depth_msg->width;
   cloud->points.resize (cloud->height * cloud->width);
-  const uint16_t* depth_buffer = reinterpret_cast<const uint16_t*>(&depth_msg->data[0]);
+  const double fx = unity_quad->getCameras()[0]->getIntrinsic()(0, 0);
+  const double fy = unity_quad->getCameras()[0]->getIntrinsic()(1, 1);
+  const double cx = unity_quad->getCameras()[0]->getIntrinsic()(0, 2);
+  const double cy = unity_quad->getCameras()[0]->getIntrinsic()(1, 2);
+  const float* depth_buffer = reinterpret_cast<const float*>(&depth_msg->data[0]);
   int depth_idx = 0;
   pointcloud_type::iterator pt_iter = cloud->begin ();
   for (int v = 0; v < (int)cloud->height; ++v)
@@ -330,7 +274,7 @@ void VisionSim::publishImages(const QuadState &state) {
     for (int u = 0; u < (int)cloud->width; ++u, ++depth_idx, ++pt_iter)
     {
       point_type& pt = *pt_iter;
-      float Z = (float)depth_buffer[depth_idx] * depth_scale;
+      float Z = depth_buffer[depth_idx];
       // Check for invalid measurements
       if (std::isnan (Z))
       {
@@ -346,7 +290,7 @@ void VisionSim::publishImages(const QuadState &state) {
   }
   sm::PointCloud2 cloudMessage;
   pcl::toROSMsg(*cloud, cloudMessage);
-  pcl_pub_.publish(cloudMessage);  
+  pcl_pub_.publish(cloudMessage);
 }
 
 Eigen::Vector3d VisionSim::get_covariance_matrix(const Eigen::Vector3d& depth_point) const {
