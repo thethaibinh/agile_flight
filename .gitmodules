@@ -20,3 +20,6 @@
 [submodule "rpg_quadrotor_common"]
 	path = rpg_quadrotor_common
 	url = git@github.com:uzh-rpg/rpg_quadrotor_common.git
+[submodule "rpg_quadrotor_control"]
+	path = rpg_quadrotor_control
+	url = git@github.com:binhnt94/rpg_quadrotor_control.git

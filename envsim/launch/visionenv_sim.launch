@@ -39,9 +39,9 @@
     <node name="planner" pkg="dess" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
-        <param name="goal_x_world_coordinate" value="17.0" />
+        <param name="goal_x_world_coordinate" value="60.0" />
         <param name="goal_y_world_coordinate" value="0.0" />
-        <param name="goal_z_world_coordinate" value="5.0" />
+        <param name="goal_z_world_coordinate" value="10.0" />
 
         <param name="depth_upper_bound" value="4.5" />
         <param name="depth_lower_bound" value="1.7" />
