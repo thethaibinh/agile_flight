@@ -11,7 +11,7 @@ import open3d as o3d
 from uniplot import plot
 
 class Evaluator:
-    def __init__(self, config, scenario, scene, policy, goal_x):
+    def __init__(self, config, scenario, scene, policy, goal_x, goal_y, goal_z):
         self.policy = policy
         self.scenario = scenario
         self.scene = scene
@@ -20,7 +20,8 @@ class Evaluator:
         self.pcd_tree = None
         self.current_pos = None
         self.xmax = int(goal_x)
-
+        self.ymax = int(goal_y)
+        self.zmax = int(goal_z)
         self.is_active = False
         self.is_skipped = False
         self.pos = []
@@ -98,7 +99,7 @@ class Evaluator:
         bin_x = int(max(min(np.floor(pos_x),self.xmax),0))
         if np.isnan(self.time_array[bin_x]):
             self.time_array[bin_x] = rospy.get_rostime().to_sec()
-        distance_to_goal = np.linalg.norm(pos[1:4] - ([self.xmax,0,5]))
+        distance_to_goal = np.linalg.norm(pos[1:4] - ([self.xmax,self.ymax,self.zmax]))
         if distance_to_goal < 0.3:
             self.is_active = False
             self.publishFinish()
@@ -292,6 +293,8 @@ if __name__=="__main__":
 
     # Retrieve parameters from the ROS parameter server
     goal_x = rospy.get_param('/goal_x_world_coordinate', 17.0)  # Default to 17.0 if not set
+    goal_y = rospy.get_param('/goal_y_world_coordinate', 0.0)  # Default to 0.0 if not set
+    goal_z = rospy.get_param('/goal_z_world_coordinate', 5.0)  # Default to 5.0 if not set
 
     with open("./evaluation_config.yaml") as f:
         config = yaml.safe_load(f)
@@ -301,5 +304,5 @@ if __name__=="__main__":
     with open("../../flightmare/flightpy/configs/vision/config.yaml") as f:
         scene = yaml.safe_load(f)['unity']['scene_id']
 
-    Evaluator(config, scenario, scene, args.policy, goal_x)  # Pass goal_x to the Evaluator
+    Evaluator(config, scenario, scene, args.policy, goal_x, goal_y, goal_z)  # Pass goal_x to the Evaluator
     rospy.spin()
