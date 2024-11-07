@@ -39,7 +39,7 @@
     <node name="planner" pkg="dess" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
-        <param name="goal_x_world_coordinate" value="60.0" />
+        <param name="goal_x_world_coordinate" value="59.0" />
         <param name="goal_y_world_coordinate" value="0.0" />
         <param name="goal_z_world_coordinate" value="10.0" />
 
@@ -47,9 +47,9 @@
         <param name="depth_lower_bound" value="1.7" />
         <param name="planning_vehicle_radius" value="0.35" />
 
-        <param name="max_velocity_x" value="3.0" />
+        <param name="max_velocity_x" value="2.0" />
         <param name="max_velocity_y" value="1.5" />
-        <param name="max_velocity_z" value="3.0" />
+        <param name="max_velocity_z" value="2.0" />
         <param name="max_acceleration_x" value="6.0" />
         <param name="max_acceleration_y" value="3.0" />
         <param name="max_acceleration_z" value="6.0" />
