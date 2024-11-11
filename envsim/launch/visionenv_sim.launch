@@ -39,13 +39,13 @@
     <node name="planner" pkg="dess" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
-        <param name="goal_x_world_coordinate" value="65.0" />
-        <param name="goal_y_world_coordinate" value="0.0" />
-        <param name="goal_z_world_coordinate" value="10.0" />
+        <param name="goal_x_world_coordinate" value="62.0" />
+        <param name="goal_y_world_coordinate" value="-5.0" />
+        <param name="goal_z_world_coordinate" value="7.0" />
 
-        <param name="depth_upper_bound" value="7.5" />
+        <param name="depth_upper_bound" value="5.5" />
         <param name="depth_lower_bound" value="1.7" />
-        <param name="planning_vehicle_radius" value="0.45" />
+        <param name="planning_vehicle_radius" value="0.4" />
 
         <param name="max_velocity_x" value="2.0" />
         <param name="max_velocity_y" value="1.5" />
@@ -54,8 +54,8 @@
         <param name="max_acceleration_y" value="3.0" />
         <param name="max_acceleration_z" value="6.0" />
         <!-- Depth uncertainty coefficients -->
-        <param name="true_vehicle_radius" value="0.15" />
-        <param name="minimum_clear_distance" value="0.5" />
+        <param name="true_vehicle_radius" value="0.13" />
+        <param name="minimum_clear_distance" value="0.9" />
         <param name="collision_checking_method" value="du" />
         <!-- <param name="collision_checking_method" value="pyramid" /> -->
         <param name="runtime_mode" value="flightmare" />
