@@ -50,13 +50,18 @@ VisionSim::VisionSim(const ros::NodeHandle &nh, const ros::NodeHandle &pnh)
               env_cfg_file.c_str());
   }
 
+  std::string planner_cfg_file = getenv("PLANNER_PATH") + std::string("/planner_config.yaml");
+  if (!(std::filesystem::exists(planner_cfg_file))) {
+    ROS_ERROR("Planning configuration file [%s] does not exists.",
+              planner_cfg_file.c_str());
+  }
+
   // Load the config file
   YAML::Node env_cfg_node = YAML::LoadFile(env_cfg_file);
-
+  YAML::Node planner_cfg_node = YAML::LoadFile(planner_cfg_file);
   // Get the frame names
-  world_frame_name_ = env_cfg_node["environment"]["world_frame_name"].as<std::string>();
-  vehicle_frame_name_ = env_cfg_node["environment"]["vehicle_frame_name"].as<std::string>();
-  camera_frame_name_ = env_cfg_node["environment"]["camera_frame_name"].as<std::string>();
+  world_frame_name_ = planner_cfg_node["world_frame_name"].as<std::string>();
+  vehicle_frame_name_ = planner_cfg_node["vehicle_frame_name"].as<std::string>();
 
   vision_env_ptr_ = std::make_unique<flightlib::VisionEnv>(env_cfg_file, 0);
   if (render_) {

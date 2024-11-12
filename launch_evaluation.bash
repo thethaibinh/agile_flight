@@ -14,6 +14,12 @@ then
   export FLIGHTMARE_PATH=$PWD/flightmare
 fi
 
+# Set Planner Path if it is not set
+if [ -z $PLANNER_PATH ]
+then
+  export PLANNER_PATH=$PWD/envtest/ros/planner/dess
+fi
+
 # Launch the simulator, unless it is already running
 if [ -z $(pgrep visionsim_node) ]
 then

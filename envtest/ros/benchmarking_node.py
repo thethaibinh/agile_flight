@@ -291,16 +291,18 @@ if __name__=="__main__":
     parser.add_argument('--policy', help='Navigation policy', required=False,  default='fixed_yawing')
     args = parser.parse_args()
 
-    # Retrieve parameters from the ROS parameter server
-    goal_x = rospy.get_param('/goal_x_world_coordinate', 17.0)  # Default to 17.0 if not set
-    goal_y = rospy.get_param('/goal_y_world_coordinate', 0.0)  # Default to 0.0 if not set
-    goal_z = rospy.get_param('/goal_z_world_coordinate', 5.0)  # Default to 5.0 if not set
-
     with open("./evaluation_config.yaml") as f:
         config = yaml.safe_load(f)
 
     with open("../../flightmare/flightpy/configs/vision/config.yaml") as f:
         scenario = yaml.safe_load(f)['environment']['level']
+
+    with open("../../envtest/ros/planner/dess/planner_config.yaml") as f:
+        planner_config = yaml.safe_load(f)
+        goal_x = planner_config['goal_coordinate']['north']
+        goal_y = planner_config['goal_coordinate']['west']
+        goal_z = planner_config['goal_coordinate']['up']
+
     with open("../../flightmare/flightpy/configs/vision/config.yaml") as f:
         scene = yaml.safe_load(f)['unity']['scene_id']
 

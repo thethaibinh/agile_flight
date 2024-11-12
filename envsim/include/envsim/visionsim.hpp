@@ -89,7 +89,6 @@ class VisionSim {
   std::string ros_param_directory_;
   std::string world_frame_name_;
   std::string vehicle_frame_name_;
-  std::string camera_frame_name_;
 
   // flightmare vision environment
   std::unique_ptr<flightlib::VisionEnv> vision_env_ptr_;
