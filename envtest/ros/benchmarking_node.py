@@ -50,13 +50,6 @@ class Evaluator:
                 queue_size=1,
                 tcp_nodelay=True)
 
-        self.obstacle_sub = rospy.Subscriber(
-                "/%s/%s" % (config['quad_name'], config['obstacles']),
-                ObstacleArray,
-                self.callbackObstacles,
-                queue_size=1,
-                tcp_nodelay=True)
-
         self.start_sub = rospy.Subscriber(
                 "/%s/%s" % (config['quad_name'], config['start']),
                 Empty,
@@ -133,28 +126,6 @@ class Evaluator:
         if not self.is_active:
             self.is_active = True
         self.time_array[0] = rospy.get_rostime().to_sec()
-
-    def callbackObstacles(self, msg):
-        if not self.is_active:
-            return
-        if self.is_skipped:
-            return
-        obs = msg.obstacles[0]
-        dist = np.linalg.norm(np.array([obs.position.x,
-                                        obs.position.y,
-                                        obs.position.z]))
-        if obs.scale > 1e-6:
-            margin = dist - obs.scale
-        else:
-            margin = 10
-        self.dist.append([msg.header.stamp.to_sec(), margin])
-        if margin < 0:
-            if not self.hit_obstacle:
-                self.crash += 1
-                print("Crashed")
-            self.hit_obstacle = True
-        else:
-            self.hit_obstacle = False
 
     def check_for_collision(self, _timer):
         if not self.is_active:
