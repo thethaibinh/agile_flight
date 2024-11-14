@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Launch the simulator, unless it is already running
+if [ -z $(pgrep main) ]
+then
+  roslaunch dna host.launch &
+  ROS_PID="$!"
+  echo $ROS_PID
+  sleep 1
+else
+  ROS_PID=""
+fi
+
+rosrun rviz rviz
+# sleep 3
+# rosrun mavros mavsys rate --raw-controller 0
+# sleep 0.1
+# rosrun mavros mavsys rate --raw-sensors 0
+# sleep 0.1
+# rosrun mavros mavsys rate --rc-channels 0
+# sleep 0.1
+# rosrun mavros mavsys rate --extra2 0
+# sleep 0.1
+# rosrun mavros mavsys rate --extra3 0
+
+# while true
+# do
+#   rosrun mavros mavsys rate --position 50
+#   rosrun mavros mavsys rate --extra1 50
+#   sleep 3
+# done

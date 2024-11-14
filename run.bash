@@ -17,7 +17,7 @@ fi
 # Set Planner Path if it is not set
 if [ -z $PLANNER_PATH ]
 then
-  export PLANNER_PATH=$PWD/envtest/ros/planner/dess
+  export PLANNER_PATH=$PWD/envtest/ros/planner/dna
 fi
 
 # Launch the simulator, unless it is already running
@@ -62,4 +62,5 @@ done
 if [ $ROS_PID ]
 then
   kill -SIGINT "$ROS_PID"
+  kill -SIGINT "$PY_PID"
 fi

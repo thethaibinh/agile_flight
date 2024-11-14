@@ -17,7 +17,7 @@ fi
 # Set Planner Path if it is not set
 if [ -z $PLANNER_PATH ]
 then
-  export PLANNER_PATH=$PWD/envtest/ros/planner/dess
+  export PLANNER_PATH=$PWD/envtest/ros/planner/dna
 fi
 
 # Launch the simulator, unless it is already running

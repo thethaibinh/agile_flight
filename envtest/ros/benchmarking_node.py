@@ -268,7 +268,7 @@ if __name__=="__main__":
     with open("../../flightmare/flightpy/configs/vision/config.yaml") as f:
         scenario = yaml.safe_load(f)['environment']['level']
 
-    with open("../../envtest/ros/planner/dess/planner_config.yaml") as f:
+    with open("../../envtest/ros/planner/dna/planner_config.yaml") as f:
         planner_config = yaml.safe_load(f)
         goal_x = planner_config['goal_coordinate']['north']
         goal_y = planner_config['goal_coordinate']['west']

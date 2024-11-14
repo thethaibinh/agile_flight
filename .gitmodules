@@ -11,9 +11,6 @@
 	path = dodgedrone_simulation
 	url = https://github.com/uzh-rpg/dodgedrone_simulation.git
 	branch = main
-[submodule "dess"]
-	path = envtest/ros/planner/dess
-	url = git@github.com:thethaibinh/DESS.git
 [submodule "eigen_catkin"]
 	path = eigen_catkin
 	url = git@github.com:ethz-asl/eigen_catkin.git
@@ -23,3 +20,9 @@
 [submodule "rpg_quadrotor_control"]
 	path = rpg_quadrotor_control
 	url = git@github.com:binhnt94/rpg_quadrotor_control.git
+[submodule "vision_to_mavros"]
+	path = vision_to_mavros
+	url = git@github.com:binhnt94/vision_to_mavros.git
+[submodule "envtest/ros/planner/dna"]
+	path = envtest/ros/planner/dna
+	url = git@github.com:binhnt94/dna.git

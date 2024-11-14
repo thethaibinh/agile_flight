@@ -10,7 +10,7 @@ echo $project_path
 
 #
 echo "export FLIGHTMARE_PATH=$project_path/flightmare" >> ~/.bashrc
-echo "export PLANNER_PATH=$project_path/envtest/ros/planner/dess" >> ~/.bashrc
+echo "export PLANNER_PATH=$project_path/envtest/ros/planner/dna" >> ~/.bashrc
 source ~/.bashrc
 sudo apt install python3-pip
 #
@@ -60,7 +60,7 @@ chmod +x $project_path/flightmare/flightrender/RPG_Flightmare.x86_64
 
 echo "Setting the flightmare environment variable. Please add 'export FLIGHTMARE_PATH=$PWD/flightmare' to your .bashrc!"
 export FLIGHTMARE_PATH=$project_path/flightmare
-export PLANNER_PATH=$project_path/envtest/ros/planner/dess
+export PLANNER_PATH=$project_path/envtest/ros/planner/dna
 
 echo "Done!"
 echo "Have a save flight!"
