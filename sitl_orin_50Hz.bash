@@ -3,7 +3,7 @@
 # Launch the simulator, unless it is already running
 if [ -z $(pgrep main) ]
 then
-  roslaunch dna sim_orin.launch &
+  roslaunch dna sitl.launch fcu_url:=udp://0.0.0.0:22 &
   ROS_PID="$!"
   echo $ROS_PID
   sleep 1
@@ -11,7 +11,7 @@ else
   ROS_PID=""
 fi
 
-sleep 3
+sleep 5
 rosrun mavros mavsys rate --raw-controller 0
 sleep 0.1
 rosrun mavros mavsys rate --raw-sensors 0

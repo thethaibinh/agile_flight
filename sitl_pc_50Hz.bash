@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# sim_vehicle.py -v ArduCopter --console --map --moddebug 3
+
 # Launch the simulator, unless it is already running
 if [ -z $(pgrep main) ]
 then
-  roslaunch dna real.launch &
+  roslaunch dna sitl.launch fcu_url:=udp://127.0.0.1:14551@14555 &
   ROS_PID="$!"
   echo $ROS_PID
   sleep 1
@@ -11,7 +13,7 @@ else
   ROS_PID=""
 fi
 
-sleep 3
+sleep 5
 rosrun mavros mavsys rate --raw-controller 0
 sleep 0.1
 rosrun mavros mavsys rate --raw-sensors 0

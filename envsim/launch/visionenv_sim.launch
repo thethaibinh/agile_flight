@@ -39,4 +39,5 @@
     <node name="planner" pkg="dna" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
+        <param name="scenario" value="sim" />
 </launch>

@@ -50,7 +50,11 @@ VisionSim::VisionSim(const ros::NodeHandle &nh, const ros::NodeHandle &pnh)
               env_cfg_file.c_str());
   }
 
-  std::string planner_cfg_file = getenv("PLANNER_PATH") + std::string("/planner_config.yaml");
+  const char* planner_path = getenv("PLANNER_PATH");
+  if (!planner_path) {
+    throw std::runtime_error("Environment variable PLANNER_PATH is not set");
+  }
+  const std::string planner_cfg_file = std::string(planner_path) + "/configs/sim.yaml";
   if (!(std::filesystem::exists(planner_cfg_file))) {
     ROS_ERROR("Planning configuration file [%s] does not exists.",
               planner_cfg_file.c_str());
