@@ -3,7 +3,7 @@
 # Launch the simulator, unless it is already running
 if [ -z $(pgrep main) ]
 then
-  roslaunch dna sitl.launch fcu_url:=udp://0.0.0.0:5000@5000 rviz:=false &
+  roslaunch dna sitl.launch fcu_url:=udp://0.0.0.0:5000@5000 &
   ROS_PID="$!"
   echo $ROS_PID
   sleep 1
@@ -24,7 +24,7 @@ rosrun mavros mavsys rate --extra3 0
 
 while true
 do
-  rosrun mavros mavsys rate --position 100
-  rosrun mavros mavsys rate --extra1 100
+  rosrun mavros mavsys rate --position 50
+  rosrun mavros mavsys rate --extra1 50
   sleep 3
 done
