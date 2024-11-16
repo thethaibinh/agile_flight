@@ -5,7 +5,7 @@
 # Launch the simulator, unless it is already running
 if [ -z $(pgrep main) ]
 then
-  roslaunch dna sitl.launch fcu_url:=udp://127.0.0.1:14551@14555 &
+  roslaunch dna sitl.launch fcu_url:=udp://127.0.0.1:14550@14555 &
   ROS_PID="$!"
   echo $ROS_PID
   sleep 1
