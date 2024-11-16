@@ -12,6 +12,8 @@ echo $project_path
 echo "export FLIGHTMARE_PATH=$project_path/flightmare" >> ~/.bashrc
 echo "export PLANNER_PATH=$project_path/envtest/ros/planner/dna" >> ~/.bashrc
 echo "export OMP_CANCELLATION=true" >> ~/.bashrc
+echo "export OMP_NUM_THREADS=4" >> ~/.bashrc
+
 source ~/.bashrc
 sudo apt install python3-pip
 #
