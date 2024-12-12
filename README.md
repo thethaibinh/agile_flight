@@ -31,6 +31,7 @@ export ROS_VERSION=noetic
 export CATKIN_WS=./STAMINER
 mkdir -p $CATKIN_WS/src
 cd $CATKIN_WS
+echo "source $PWD/devel/setup.bash" >> ~/.bashrc
 catkin init
 catkin config --extend /opt/ros/$ROS_VERSION
 catkin config --merge-devel
@@ -45,6 +46,8 @@ Run the `setup_ros.bash` and `./setup_py.bash` sequentially in the main folder o
 
 ```bash
 ./setup.bash
+conda activate agileflight
+source ~/.bashrc
 catkin build
 ```
 You may need to run `catkin build` two time for all packages recognize each others.

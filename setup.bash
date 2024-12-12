@@ -14,7 +14,6 @@ echo "export PLANNER_PATH=$project_path/envtest/ros/planner/dna" >> ~/.bashrc
 echo "export OMP_CANCELLATION=true" >> ~/.bashrc
 echo "export OMP_NUM_THREADS=4" >> ~/.bashrc
 
-source ~/.bashrc
 sudo apt install python3-pip
 #
 echo "Creating an conda environment from the environment.yaml file. Make sure you have anaconda installed"
@@ -64,6 +63,7 @@ chmod +x $project_path/flightmare/flightrender/RPG_Flightmare.x86_64
 echo "Setting the flightmare environment variable. Please add 'export FLIGHTMARE_PATH=$PWD/flightmare' to your .bashrc!"
 export FLIGHTMARE_PATH=$project_path/flightmare
 export PLANNER_PATH=$project_path/envtest/ros/planner/dna
+echo "conda activate agileflight" >> ~/.bashrc
 
 echo "Done!"
 echo "Have a save flight!"
