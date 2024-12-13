@@ -36,7 +36,7 @@
     <!-- args="-batchmode"/> -->
 
     <!-- Trajectory Planner -->
-    <node name="planner" pkg="dna" type="main"/>
+    <node name="planner" pkg="midi" type="main"/>
         <!-- Autopilot -->
         <rosparam file="$(find position_controller)/parameters/default.yaml" />
         <param name="scenario" value="sim" />

@@ -1,9 +1,0 @@
-repositories:
-  eigen_catkin:
-    type: git
-    url: git@github.com:ethz-asl/eigen_catkin.git
-    version: master
-  rpg_quadrotor_common:
-    type: git
-    url: git@github.com:uzh-rpg/rpg_quadrotor_common.git
-    version: master
