@@ -50,6 +50,13 @@ class Evaluator:
                 queue_size=1,
                 tcp_nodelay=True)
 
+        self.obstacle_sub = rospy.Subscriber(
+                "/%s/%s" % (config['quad_name'], config['obstacles']),
+                ObstacleArray,
+                self.callbackObstacles,
+                queue_size=1,
+                tcp_nodelay=True)
+
         self.start_sub = rospy.Subscriber(
                 "/%s/%s" % (config['quad_name'], config['start']),
                 Empty,
@@ -154,6 +161,27 @@ class Evaluator:
         # make sure to not count double crashes
         if self.hit_obstacle and closest_distance > 2 * self.crashed_thr:
             self.hit_obstacle = False
+
+
+    def callbackObstacles(self, msg):
+        if not self.is_active:
+            return
+
+        obs = msg.obstacles[0]
+        dist = np.linalg.norm(np.array([obs.position.x,
+                                        obs.position.y,
+                                        obs.position.z]))
+        margin = dist - obs.scale
+        self.dist.append([msg.header.stamp.to_sec(), margin])
+        if margin < 0:
+            if not self.hit_obstacle:
+                self.crash += 1
+                print("Crashed")
+            self.hit_obstacle = True
+            self.abortRun()
+        else:
+            self.hit_obstacle = False
+
 
     def abortRun(self):
         print("You did not reach the goal!")
