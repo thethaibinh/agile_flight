@@ -1,53 +1,100 @@
+cmake_minimum_required(VERSION 3.8)
 project(envsim)
-cmake_minimum_required(VERSION 3.0.0)
 
-find_package(catkin_simple REQUIRED)
-
-catkin_simple(ALL_DEPS_REQUIRED)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
 # Setup Default Build Type as Release
-set(CMAKE_BUILD_TYPE Debug)
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-endif ()
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+endif()
 
-# Setup Architcture-specific Flags
-if ("${CMAKE_HOST_SYSTEM_PROCESSOR}" STREQUAL "armv7l")
-    message(STATUS "Using ARMv7 optimized flags!")
-    set(CMAKE_CXX_ARCH_FLAGS " -Wno-psabi -march=armv7-a -mfpu=neon -mfloat-abi=hard -funsafe-math-optimizations")
-elseif ("${CMAKE_HOST_SYSTEM_PROCESSOR}" STREQUAL "aarch64")
-    message(STATUS "Using ARM aarch64 optimized flags!")
-    set(CMAKE_CXX_ARCH_FLAGS " -Wno-psabi -march=armv8-a+crypto -mcpu=cortex-a57+crypto")
-else ()
-    if (NOT DEFINED CATKIN_DEVEL_PREFIX)
-        set(CMAKE_CXX_ARCH_FLAGS " -march=native")
-    endif ()
-endif ()
+# Setup C++ Standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_definitions(-Wall -Wextra -Wpedantic)
-# Setup General C++ Flags
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEIGEN_STACK_ALLOCATION_LIMIT=1048576")
+# Setup Eigen flags
+add_definitions(-DEIGEN_STACK_ALLOCATION_LIMIT=1048576)
 add_definitions(-DEIGEN_DONT_PARALLELIZE -DEIGEN_DONT_VECTORIZE -DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT)
 
-# Setup Release and Debug flags
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_ARCH_FLAGS} -O3 -Wall -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_ARCH_FLAGS} -fsanitize=address -O3 -Wall -DNDEBUG")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g")
+# Find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(image_transport REQUIRED)
+find_package(pcl_conversions REQUIRED)
+find_package(pcl_ros REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(rosgraph_msgs REQUIRED)
+find_package(dodgelib REQUIRED)
+find_package(dodgeros REQUIRED)
+find_package(envsim_msgs REQUIRED)
+find_package(dodgeros_msgs REQUIRED)
+find_package(flightlib REQUIRED)
+find_package(zmqpp_vendor REQUIRED)
+find_package(Eigen3 REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(yaml-cpp REQUIRED)
 
-cs_add_executable(visionsim_node src/visionsim_node.cpp)
-
-# Simulator stuff
-target_link_libraries(visionsim_node
-  ${catkin_LIBRARIES}
-  ${OpenCV_LIBRARIES}
-  zmq
-  zmqpp
-  yaml-cpp
+# Include directories
+include_directories(
+  include
+  ${EIGEN3_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+  ${flightlib_INCLUDE_DIRS}
 )
 
-  
+# Create executable
+add_executable(visionsim_node src/visionsim_node.cpp)
 
-# Finish
-cs_install()
-cs_export()
+ament_target_dependencies(visionsim_node
+  rclcpp
+  std_msgs
+  nav_msgs
+  sensor_msgs
+  geometry_msgs
+  cv_bridge
+  image_transport
+  pcl_conversions
+  pcl_ros
+  tf2
+  tf2_ros
+  rosgraph_msgs
+  dodgelib
+  dodgeros
+  envsim_msgs
+  dodgeros_msgs
+  flightlib
+  zmqpp_vendor
+)
+
+target_link_libraries(visionsim_node
+  ${OpenCV_LIBRARIES}
+  ${flightlib_LIBRARIES}
+  yaml-cpp
+  zmq
+  /opt/ros/humble/lib/libzmqpp.so
+)
+
+# Install targets
+install(TARGETS visionsim_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install include directory
+install(DIRECTORY include/
+  DESTINATION include
+)
+
+# Install launch and parameter files
+install(DIRECTORY launch parameters resources
+  DESTINATION share/${PROJECT_NAME}
+)
+
+ament_package()

@@ -1,11 +1,21 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.8)
 project(envsim_msgs)
 
-add_compile_options(-std=c++17)
-add_compile_options(-O3)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
 
-find_package(catkin_simple REQUIRED)
-catkin_simple(ALL_DEPS_REQUIRED)
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 
-cs_install()
-cs_export()
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Obstacle.msg"
+  "msg/ObstacleArray.msg"
+  DEPENDENCIES builtin_interfaces geometry_msgs std_msgs
+)
+
+ament_export_dependencies(rosidl_default_runtime)
+ament_package()

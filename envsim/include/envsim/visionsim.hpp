@@ -3,29 +3,33 @@
 #include <yaml-cpp/yaml.h>
 
 #include <memory>
+#include <mutex>
+#include <thread>
 
-// -- ros
+// -- ROS 2
+#include <rclcpp/rclcpp.hpp>
 #include <cv_bridge/cv_bridge.h>
-#include <image_transport/image_transport.h>
-#include <ros/ros.h>
+#include <image_transport/image_transport.hpp>
 
-#include <sensor_msgs/CameraInfo.h>
-#include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/msg/camera_info.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
+#include <sensor_msgs/msg/image.hpp>
+#include <std_msgs/msg/empty.hpp>
+#include <std_msgs/msg/header.hpp>
+#include <nav_msgs/msg/odometry.hpp>
+#include <geometry_msgs/msg/transform_stamped.hpp>
+#include <rosgraph_msgs/msg/clock.hpp>
 
-//this is a global definition of the points to be used
-//changes to omit color would need adaptations in
-//the visualization too
-#include <pcl/io/io.h>
+// PCL
+#include <pcl/common/io.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include "pcl/point_cloud.h"
 #include "pcl/point_types.h"
-namespace sm = sensor_msgs;
+namespace sm = sensor_msgs::msg;
 typedef pcl::PointXYZ point_type;
 typedef pcl::PointCloud<point_type> pointcloud_type;
 
 #include <filesystem>
-
-#include "std_msgs/String.h"
 
 // -- agilicious
 #include "dodgelib/base/parameter_base.hpp"
@@ -42,17 +46,25 @@ typedef pcl::PointCloud<point_type> pointcloud_type;
 // flightlib
 #include "flightlib/envs/vision_env/vision_env.hpp"
 
+// Messages
+#include "dodgeros_msgs/msg/quad_state.hpp"
+#include "envsim_msgs/msg/obstacle_array.hpp"
+
 namespace agi {
 
-class VisionSim {
+class VisionSim : public rclcpp::Node {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  VisionSim(const ros::NodeHandle& nh, const ros::NodeHandle& pnh);
-  VisionSim() : VisionSim(ros::NodeHandle(), ros::NodeHandle("~")) {}
+  VisionSim();
   ~VisionSim();
+  
+  bool init();
+  
+  // Getter for RosPilot node (needed for executor)
+  std::shared_ptr<RosPilot> getRosPilot() const { return ros_pilot_; }
 
  private:
-  void resetCallback(const std_msgs::EmptyConstPtr& msg);
+  void resetCallback(const std_msgs::msg::Empty::SharedPtr msg);
 
   void simLoop();
   void publishState(const QuadState& state);
@@ -60,30 +72,30 @@ class VisionSim {
   void publishObstacles(const QuadState& state);
   Eigen::Vector3d get_covariance_matrix(const Eigen::Vector3d& depth_point) const;
 
-  ros::NodeHandle nh_, pnh_;
-  ros::Subscriber reset_sub_;
-  ros::Publisher odometry_pub_;
-  ros::Publisher state_pub_;
-  ros::Publisher clock_pub_;
-  tf2_ros::TransformBroadcaster tfb;
+  rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr reset_sub_;
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odometry_pub_;
+  rclcpp::Publisher<dodgeros_msgs::msg::QuadState>::SharedPtr state_pub_;
+  rclcpp::Publisher<rosgraph_msgs::msg::Clock>::SharedPtr clock_pub_;
+  std::unique_ptr<tf2_ros::TransformBroadcaster> tfb_;
 
-  ros::Publisher obstacle_pub_;
-  ros::Publisher pcl_pub_;
+  rclcpp::Publisher<envsim_msgs::msg::ObstacleArray>::SharedPtr obstacle_pub_;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pcl_pub_;
 
+  std::shared_ptr<image_transport::ImageTransport> it_;
   image_transport::Publisher image_pub_;
   image_transport::Publisher depth_pub_;
   image_transport::Publisher opticalflow_pub_;
 
   Quadrotor quad_;
   QuadrotorSimulator simulator_;
-  RosPilot ros_pilot_;
+  std::shared_ptr<RosPilot> ros_pilot_;
   Scalar camera_dt_ = 0.04;  // 20 Hz. Should be a multiple of sim_dt_
   Scalar sim_dt_ = 0.01;
   int render_every_n_steps_ = camera_dt_ / sim_dt_;
   int step_counter_ = 0;
   Scalar real_time_factor_ = 1.0;
   bool render_ = false;
-  ros::WallTime t_start_;
+  rclcpp::Time t_start_;
 
   std::string agi_param_directory_;
   std::string ros_param_directory_;
